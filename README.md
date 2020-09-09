@@ -1,2 +1,2 @@
 # Android-Plant-App
-* This is our CS458 project. This is your all purpose plant management app!
+* This is our CS458 project, your all purpose plant management app!
