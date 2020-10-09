@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">PlantApp</string>
-    <string name="shelf">shelf</string>
-    <string name="search">search</string>
-    <string name="wishlist">wishlist</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-</resources>
