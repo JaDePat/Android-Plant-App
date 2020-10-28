@@ -7,9 +7,10 @@
 
     <ImageView
         android:id="@+id/ivPlantImage"
+        android:contentDescription="@string/app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_cenerVertical="true"
+        android:layout_centerVertical="true"
         android:adjustViewBounds="true"
         android:maxHeight="70dp"
         android:scaleType="fitXY"
@@ -20,8 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/ivPlantImage"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@+id/ivPlantImage"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@+id/ivPlantImage"
         android:textSize="18sp"
         android:textStyle="bold"
         tools:text="Burro's Tail" />
@@ -30,7 +31,7 @@
         android:id="@+id/tvScientificName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvPlantName"
+        android:layout_alignStart="@+id/tvPlantName"
         android:layout_below="@+id/tvPlantName"
         android:layout_marginTop="5dp"
         tools:text="Sedum morganianum"
