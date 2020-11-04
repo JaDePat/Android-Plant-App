@@ -19,7 +19,7 @@ import java.util.List;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "plants.db";
-    private static final String DATABASE_DIRECTORY = "/data/data/com.example.plantsqlitedatabase/" +
+    private static final String DATABASE_DIRECTORY = "/data/data/com.example.plantapp/" +
             "databases/";
     private static String DATABASE_PATH = DATABASE_DIRECTORY + DATABASE_NAME;
     private static String OLD_DATABASE_PATH = DATABASE_DIRECTORY + "old_" + DATABASE_NAME;
@@ -47,18 +47,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PLANT_PROPAGATION = "PROPAGATION";
     public static final String COLUMN_PLANT_POISON = "POISONOUS_PLANT_INFO";
 
-    public String getCreateDatabase(){
-        String what = "What the fuck";
-        if (createDatabase){
-            what = "true";
-        }
-
-        if (!createDatabase){
-            what = "false";
-        }
-        return what;
-    }
-
     /*
     * Constructor takes and keeps a reference of the passed context in order to
     * access the application assets and resources
@@ -72,7 +60,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     /*
-    * Upgrade teh database in internal storage if it exists but is not current.
+    * Upgrade the database in internal storage if it exists but is not current.
     * Create a new empty database in internal storage if it does not exist.
     * */
     public void initializeDataBase() {
