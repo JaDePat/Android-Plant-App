@@ -29,6 +29,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private boolean createDatabase = false;
     private boolean upgradeDatabase = false;
 
+    // PLANT_TABLE
     public static final String PLANT_TABLE = "PLANT_TABLE";
     public static final String COLUMN_PLANT_ID = "ID";
     public static final String COLUMN_PLANT_NAME = "NAME";
@@ -46,6 +47,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PLANT_PRUNING = "PRUNING";
     public static final String COLUMN_PLANT_PROPAGATION = "PROPAGATION";
     public static final String COLUMN_PLANT_POISON = "POISONOUS_PLANT_INFO";
+
+    // USER_TABLE
+    public static final String USER_TABLE = "USER_TABLE";
+    public static final String COLUMN_USER_ID = "USER_ID";
+    public static final String COLUMN_USER_NAME = "USER_NAME";
+    public static final String COLUMN_USER_PASSWORD = "USER_PASS";
+    public static final String COLUMN_IS_ADMIN = "IS_ADMIN";
+
+    // WISHLIST_TABLE
+    public static final String WISHLIST_TABLE = "WISHLIST_TABLE";
+    public static final String COLUMN_WISHLIST_ID = "WISHLIST_ID";
+    public static final String COLUMN_WISHLIST_USER_ID = "USER_ID";   // references USER_TABLE
+    public static final String COLUMN_WISHLIST_PLANT_ID = "PLANT_ID"; // references PLANT_TABLE
+
+    // PLANTS_OWNED_TABLE
+    public static final String PLANTS_OWNED_TABLE = "PLANTS_OWNED_TABLE";
+    public static final String COLUMN_PLANTS_OWNED_ID = "PLANTS_OWNED_ID";
+    public static final String COLUMN_PLANTS_OWNED_USER_ID = "USER_ID";   // references USER_TABLE
+    public static final String COLUMN_PLANTS_OWNED_PLANT_ID = "PLANT_ID"; // references PLANT_TABLE
 
     /*
     * Constructor takes and keeps a reference of the passed context in order to
