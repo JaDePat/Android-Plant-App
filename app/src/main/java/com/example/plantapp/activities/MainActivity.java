@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.plantapp.DataBaseHelper;
 import com.example.plantapp.R;
 import com.example.plantapp.fragments.SearchFragment;
 import com.example.plantapp.fragments.ShelfFragment;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
         final Fragment shelf = new ShelfFragment();
