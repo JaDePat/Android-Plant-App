@@ -8,6 +8,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.plantapp.fragments.SearchFragment;
+import com.example.plantapp.objects.Plant;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -270,5 +273,41 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return returnList;
+    }
+
+    public List<Plant> getPlants()
+    {
+        List<Plant> plants = new ArrayList<>();
+
+        String queryString = "SELECT * FROM " + PLANT_TABLE;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if(cursor.moveToFirst()) {
+            do {
+                Plant currentPlant = new Plant();
+                currentPlant.setID(cursor.getInt(0));
+                currentPlant.setName(cursor.getString(1));
+                currentPlant.setScientific_Name(cursor.getString(2));
+                currentPlant.setLight(cursor.getString(3));
+                currentPlant.setWater(cursor.getString(4));
+                currentPlant.setFertilizer(cursor.getString(5));
+                currentPlant.setTemperature(cursor.getString(6));
+                currentPlant.setHumidity(cursor.getString(7));
+                currentPlant.setFlowering(cursor.getString(8));
+                currentPlant.setPests(cursor.getString(9));
+                currentPlant.setDiseases(cursor.getString(10));
+                currentPlant.setSoil(cursor.getString(11));
+                currentPlant.setPot_size(cursor.getString(12));
+                currentPlant.setPruning(cursor.getString(13));
+                currentPlant.setPropagation(cursor.getString(14));
+                currentPlant.setPoisonous_plant_info(cursor.getString(15));
+
+                plants.add(currentPlant);
+            } while (cursor.moveToNext());
+        }
+
+        return plants;
     }
 }

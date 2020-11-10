@@ -14,10 +14,11 @@ import com.example.plantapp.R;
 import com.example.plantapp.objects.Plant;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHolder> implements Filterable {
-    private ArrayList<Plant> mPlantList;
-    private ArrayList<Plant> mPlantListFull;
+    private List<Plant> mPlantList;
+    private List<Plant> mPlantListFull;
 
     public static class PlantViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextView1;
@@ -31,7 +32,7 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
         }
     }
 
-    public PlantAdapter(ArrayList<Plant> plantList) {
+    public PlantAdapter(List<Plant> plantList) {
         mPlantList = plantList;
         mPlantListFull = new ArrayList<>(plantList);
     }
@@ -66,7 +67,7 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
     private Filter plantFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            ArrayList<Plant> filteredList = new ArrayList<>();
+            List<Plant> filteredList = new ArrayList<>();
 
             if(constraint == null || constraint.length() == 0) {
                 filteredList.addAll(mPlantListFull);
