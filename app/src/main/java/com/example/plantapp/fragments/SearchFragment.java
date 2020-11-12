@@ -1,11 +1,13 @@
 package com.example.plantapp.fragments;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,9 +21,9 @@ import android.view.inputmethod.EditorInfo;
 
 import com.example.plantapp.DataBaseHelper;
 import com.example.plantapp.R;
+import com.example.plantapp.activities.MainActivity;
 import com.example.plantapp.objects.Plant;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -80,7 +82,6 @@ public class SearchFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

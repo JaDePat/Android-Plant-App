@@ -1,13 +1,18 @@
 package com.example.plantapp.fragments;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.plantapp.R;
@@ -19,8 +24,10 @@ import java.util.List;
 public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHolder> implements Filterable {
     private List<Plant> mPlantList;
     private List<Plant> mPlantListFull;
+    private int limit = 10;
+    private ShelfFragment shelfFragment = new ShelfFragment();
 
-    public static class PlantViewHolder extends RecyclerView.ViewHolder {
+    public class PlantViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView mTextView1;
         public TextView mTextView2;
 
@@ -29,6 +36,24 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
 
             mTextView1 = itemView.findViewById(R.id.textView);
             mTextView2 = itemView.findViewById(R.id.textView2);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int mPosition = getLayoutPosition();
+            Plant plant_selected = mPlantList.get(mPosition);
+
+            PlantFragment plantFragment = new PlantFragment();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("Plant Selected", plant_selected);
+            plantFragment.setArguments(bundle);
+
+            FragmentManager fragmentManager = plantFragment.getActivity().getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.plant_name_fragment, null);
+            fragmentTransaction.commit();
         }
     }
 
@@ -56,7 +81,12 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
 
     @Override
     public int getItemCount() {
-        return mPlantList.size();
+        if(mPlantList.size() > limit)
+            return limit;
+        else {
+            return mPlantList.size();
+        }
+
     }
 
     @Override
