@@ -21,17 +21,23 @@ public class PlantFragment extends Fragment {
 
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_plant, container, false);
         TextView textView = v.findViewById(R.id.plant_name_fragment);
+        TextView textView1 = v.findViewById(R.id.plant_scientific_name_fragment);
 
-        if(getArguments() != null) {
-            plant = getArguments().getParcelable("Plant Selected");
-        }
-
+        Bundle bundle = getArguments();
+        plant = bundle.getParcelable("Selected");
         textView.setText(plant.getName());
+        textView1.setText(plant.getScientific_Name());
 
         return v;
     };

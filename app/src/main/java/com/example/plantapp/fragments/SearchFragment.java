@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -87,6 +88,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+
         mRecyclerView = view.findViewById(R.id.searchRecyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(view.getContext());
@@ -95,8 +97,21 @@ public class SearchFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_search, container, false);
+        mAdapter.setOnItemClickListener(new PlantAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int position) {
+                Plant plant = plantList.get(position);
+
+                PlantFragment plantFragment = new PlantFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("Selected", plant);
+                plantFragment.setArguments(bundle);
+
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, plantFragment)
+                        .addToBackStack(null).commit();
+            }
+        });
+
         return view;
     }
 
