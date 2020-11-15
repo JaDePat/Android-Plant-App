@@ -197,4 +197,7 @@ public class Plant {
     public void setPoisonous_plant_info(String poisonous_plant_info) {
         Poisonous_plant_info = poisonous_plant_info;
     }
+
+
+
 }
