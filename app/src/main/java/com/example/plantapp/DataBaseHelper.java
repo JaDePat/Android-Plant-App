@@ -319,7 +319,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public List<Plant> getOwnedPlants()
     {
         List<Plant> ownedPlants = new ArrayList<>();
-        String queryString = "SELECT * FROM  PLANTS_OWNED_TABLE  INNER JOIN  PLANT_TABLE ON  PLANTS_OWNED_TABLE.PLANT_ID  = PLANT_TABLE.ID";
+        String queryString = "SELECT * FROM  PLANT_TABLE  INNER JOIN  PLANTS_OWNED_TABLE ON  PLANTS_OWNED_TABLE.PLANT_ID  = PLANT_TABLE.ID";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(queryString, null);
@@ -327,7 +327,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if(cursor.moveToFirst()) {
             do {
                 Plant currentPlant = new Plant();
-                Log.d("WOOO", String.format("size = %d", cursor.getString(1)));
                 currentPlant.setID(cursor.getInt(0));
                 currentPlant.setName(cursor.getString(1));
                 currentPlant.setScientific_Name(cursor.getString(2));

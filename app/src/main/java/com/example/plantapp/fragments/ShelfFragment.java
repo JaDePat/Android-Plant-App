@@ -37,6 +37,7 @@ public class ShelfFragment extends Fragment {
        DataBaseHelper dpHelper = new DataBaseHelper(getActivity());
        dpHelper.initializeDataBase();
        plants = dpHelper.getOwnedPlants();
+
        // android.util.Log.d("INT", String.format("size = %d", plants.size()));
 
     }
