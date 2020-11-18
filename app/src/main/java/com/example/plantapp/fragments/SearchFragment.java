@@ -1,14 +1,31 @@
 package com.example.plantapp.fragments;
 
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 
+import com.example.plantapp.DataBaseHelper;
 import com.example.plantapp.R;
+import com.example.plantapp.activities.MainActivity;
+import com.example.plantapp.objects.Plant;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +33,10 @@ import com.example.plantapp.R;
  * create an instance of this fragment.
  */
 public class SearchFragment extends Fragment {
+    private RecyclerView mRecyclerView;
+    private PlantAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private List<Plant> plantList;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,6 +72,12 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
+        DataBaseHelper dpHelper = new DataBaseHelper(getActivity());
+        dpHelper.initializeDataBase();
+        plantList = dpHelper.getPlants();
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -60,7 +87,52 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+
+        mRecyclerView = view.findViewById(R.id.searchRecyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(view.getContext());
+        mAdapter = new PlantAdapter(plantList);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new PlantAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int position) {
+                Plant plant = plantList.get(position);
+
+                PlantFragment plantFragment = new PlantFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("Selected", plant);
+                plantFragment.setArguments(bundle);
+
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, plantFragment)
+                        .addToBackStack(null).commit();
+            }
+        });
+
+        return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.plant_search, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.plant_menu_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
     }
 }
