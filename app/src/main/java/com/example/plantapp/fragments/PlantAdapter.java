@@ -25,7 +25,6 @@ import java.util.List;
 public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHolder> implements Filterable {
     private List<Plant> mPlantList;
     private List<Plant> mPlantListFull;
-    private int limit = 10;
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
@@ -84,11 +83,7 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
 
     @Override
     public int getItemCount() {
-        if(mPlantList.size() > limit)
-            return limit;
-        else {
-            return mPlantList.size();
-        }
+        return mPlantList.size();
 
     }
 

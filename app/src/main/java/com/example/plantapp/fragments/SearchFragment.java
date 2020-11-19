@@ -73,6 +73,7 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        getActivity().setTitle("Search");
 
         DataBaseHelper dpHelper = new DataBaseHelper(getActivity());
         dpHelper.initializeDataBase();
@@ -108,7 +109,7 @@ public class SearchFragment extends Fragment {
                 plantFragment.setArguments(bundle);
 
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, plantFragment)
-                        .addToBackStack(null).commit();
+                        .addToBackStack("fragment_plant").commit();
             }
         });
 

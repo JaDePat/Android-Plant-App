@@ -1,24 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.PlantFragment">
+    android:layout_height="match_parent">
 
-
-        <TextView
-            android:id="@+id/plant_name_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".fragments.PlantFragment"
+        android:scrollbars="vertical">
 
         <TextView
-            android:id="@+id/plant_scientific_name_fragment"
+            android:id="@+id/plant_scientific_name_fragment_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:gravity="center"
+            android:paddingBottom="6dp" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/plant_light_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:paddingBottom="6dp" />
+
+        <TextView
+            android:id="@+id/plant_water_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:paddingBottom="6dp"/>
+
+        <TextView
+            android:id="@+id/plant_fertilizer_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:paddingBottom="6dp"/>
+
+        <TextView
+            android:id="@+id/plant_temperature_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:paddingBottom="6dp"/>
+
+        <TextView
+            android:id="@+id/plant_humidity_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:paddingBottom="6dp"/>
+
+        <TextView
+            android:id="@+id/plant_flowering_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:paddingBottom="6dp"/>
+
+        <TextView
+            android:id="@+id/plant_pests_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:paddingBottom="6dp"/>
+
+        <TextView
+            android:id="@+id/plant_diseases_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:paddingBottom="6dp"/>
+
+        <TextView
+            android:id="@+id/plant_soil_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:paddingBottom="6dp"/>
+
+        <TextView
+            android:id="@+id/plant_pot_size_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:paddingBottom="6dp"/>
+
+        <TextView
+            android:id="@+id/plant_pruning_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:paddingBottom="6dp"/>
+
+        <TextView
+            android:id="@+id/plant_propagation_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:paddingBottom="6dp"/>
+
+        <TextView
+            android:id="@+id/plant_poisonous_plant_info_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:paddingBottom="6dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/add_shelf_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="50dp"
+                    android:text="Add to Shelf" />
+
+                <Button
+                    android:id="@+id/add_wishlist_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="50dp"
+                    android:text="Add to Wishlist" />
+
+            </RelativeLayout>
+    </LinearLayout>
+</ScrollView>
