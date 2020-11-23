@@ -1,66 +1,85 @@
 package com.example.plantapp.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.plantapp.DataBaseHelper;
 import com.example.plantapp.R;
+import com.example.plantapp.objects.Plant;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ShelfFragment2#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.List;
+
 public class ShelfFragment2 extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Plant plant;
+    private RecyclerView rvShelf2;
+    private ShelfAdapter2 adShelf2;
+    private RecyclerView.LayoutManager lmShelf2;
+    DataBaseHelper dpHelper;
 
     public ShelfFragment2() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ShelfFragment2.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ShelfFragment2 newInstance(String param1, String param2) {
-        ShelfFragment2 fragment = new ShelfFragment2();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        dpHelper = new DataBaseHelper(getActivity());
+        dpHelper.initializeDataBase();
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shelf2, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_shelf2, container, false);
+        ImageView ivPlant= v.findViewById(R.id.ivPlantW);
+        TextView tvName = v.findViewById(R.id.tvNameW);
+        TextView tvSName = v.findViewById(R.id.tvSNameW);
+
+        Bundle bundle = getArguments();
+        plant = bundle.getParcelable("Selected");
+        Log.i("here", plant.getName());
+        tvName.setText(plant.getName());
+        tvSName.setText(plant.getScientific_Name());
+
+        rvShelf2 = v.findViewById(R.id.rvShelf2);
+        rvShelf2.setHasFixedSize(true);
+        lmShelf2 = new LinearLayoutManager(v.getContext());
+        adShelf2 = new ShelfAdapter2(getContext(), plant);
+
+        rvShelf2.setLayoutManager(lmShelf2);
+        rvShelf2.setAdapter(adShelf2);
+
+        Button removeButton = (Button) v.findViewById(R.id.btRemovePlant);
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShelfFragment shelfFragment = new ShelfFragment();
+                dpHelper.deleteFromShelf(String.valueOf(plant.getID()));
+                Toast.makeText(getContext(), "Removed from shelf!", Toast.LENGTH_SHORT).show();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, shelfFragment)
+                        .addToBackStack(null).commit();
+            }
+        });
+
+
+        return v;
+    };
+
+    public void setArguments(Context context, Bundle bundle) {
     }
 }

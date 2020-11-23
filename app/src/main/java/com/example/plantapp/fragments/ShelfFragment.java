@@ -54,6 +54,21 @@ public class ShelfFragment extends Fragment {
         rvShelf.setLayoutManager(lmShelf);
         rvShelf.setAdapter(adShelf);
 
+        adShelf.setOnItemClickListener(new ShelfAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int position){
+                Plant plant = plants.get(position);
+
+                ShelfFragment2 shelfFragment2 = new ShelfFragment2();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("Selected", plant);
+                shelfFragment2.setArguments(bundle);
+
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, shelfFragment2)
+                        .addToBackStack(null).commit();
+            }
+        });
+
         return view;
     }
 

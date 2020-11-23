@@ -350,4 +350,50 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return ownedPlants;
     }
 
+    public List<Plant> getWishlistPlants()
+    {
+        List<Plant> wishlistPlants = new ArrayList<>();
+        String queryString = "SELECT * FROM  PLANT_TABLE  INNER JOIN  WISHLIST_TABLE ON WISHLIST_TABLE.PLANT_ID  = PLANT_TABLE.ID";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(queryString, null);
+        android.util.Log.d("CURSOR", String.format("size = %d", cursor.getCount()));
+        if(cursor.moveToFirst()) {
+            do {
+                // TODO: make this code less repetitive
+                Plant currentPlant = new Plant();
+                currentPlant.setID(cursor.getInt(0));
+                currentPlant.setName(cursor.getString(1));
+                currentPlant.setScientific_Name(cursor.getString(2));
+                currentPlant.setLight(cursor.getString(3));
+                currentPlant.setWater(cursor.getString(4));
+                currentPlant.setFertilizer(cursor.getString(5));
+                currentPlant.setTemperature(cursor.getString(6));
+                currentPlant.setHumidity(cursor.getString(7));
+                currentPlant.setFlowering(cursor.getString(8));
+                currentPlant.setPests(cursor.getString(9));
+                currentPlant.setDiseases(cursor.getString(10));
+                currentPlant.setSoil(cursor.getString(11));
+                currentPlant.setPot_size(cursor.getString(12));
+                currentPlant.setPruning(cursor.getString(13));
+                currentPlant.setPropagation(cursor.getString(14));
+                currentPlant.setPoisonous_plant_info(cursor.getString(15));
+
+                wishlistPlants.add(currentPlant);
+            } while (cursor.moveToNext());
+        }
+        return wishlistPlants;
+    }
+    public void deleteFromShelf(String get_ID)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        String deleteString = "DELETE FROM PLANTS_OWNED_TABLE WHERE PLANT_ID ='"+get_ID+"'";
+        db.execSQL(deleteString);
+        db.setTransactionSuccessful();
+       // db.execSQL("DROP TABLE IF EXISTS PLANTS_OWNED_TABLE");
+        db.endTransaction();
+
+        Toast.makeText(myContext, "ere i am", Toast.LENGTH_SHORT).show();
+    }
 }

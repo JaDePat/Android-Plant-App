@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +22,41 @@ public class ShelfAdapter extends RecyclerView.Adapter<ShelfAdapter.ShelfViewHol
 
     private Context context;
     private List<Plant> plants;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClickListener(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
+    class ShelfViewHolder extends RecyclerView.ViewHolder {
+        private ImageView ivPlantImage;
+        private TextView tvPlantName;
+        private TextView tvScientificName;
+
+        public ShelfViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+            super(itemView);
+
+            ivPlantImage = itemView.findViewById(R.id.ivPlantImage);
+            tvPlantName = itemView.findViewById(R.id.tvPlantName);
+            tvScientificName = itemView.findViewById(R.id.tvScientificName);
+
+            itemView.setOnClickListener(new View.OnClickListener () {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION) {
+                            listener.onItemClickListener(position);
+                        }
+                    }
+                }
+            });
+        }
+    }
 
     public ShelfAdapter(Context context, List<Plant> plants) {
         this.context = context;
@@ -30,25 +66,11 @@ public class ShelfAdapter extends RecyclerView.Adapter<ShelfAdapter.ShelfViewHol
             Log.d("item" , plants.get(i).getName());
     }
 
-    class ShelfViewHolder extends RecyclerView.ViewHolder {
-        private ImageView ivPlantImage;
-        private TextView tvPlantName;
-        private TextView tvScientificName;
-
-        public ShelfViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            ivPlantImage = itemView.findViewById(R.id.ivPlantImage);
-            tvPlantName = itemView.findViewById(R.id.tvPlantName);
-            tvScientificName = itemView.findViewById(R.id.tvScientificName);
-        }
-    }
-
     @NonNull
     @Override
     public ShelfViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.plant_row, parent, false);
-        return new ShelfViewHolder(view);
+        return new ShelfViewHolder(view, mListener);
     }
 
     @Override
@@ -61,6 +83,7 @@ public class ShelfAdapter extends RecyclerView.Adapter<ShelfAdapter.ShelfViewHol
 
     @Override
     public int getItemCount() {
+
         return plants.size();
     }
 
@@ -68,10 +91,6 @@ public class ShelfAdapter extends RecyclerView.Adapter<ShelfAdapter.ShelfViewHol
         plants.clear();
         notifyDataSetChanged();
     }
-
-
-
-
 
 }
 

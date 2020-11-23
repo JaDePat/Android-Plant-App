@@ -5,4 +5,10 @@
     <string name="wishlist">wishlist</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Light">Light</string>
+    <string name="expand_more_icon">expand more icon</string>
+    <string name="sun_icon">sun icon</string>
+    <string name="Water">Water</string>
+    <string name="Fertilizer">Fertilizer</string>
+    <string name="Temperature">Temperature</string>
 </resources>
