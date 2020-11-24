@@ -55,19 +55,19 @@ public class PlantFragment extends Fragment {
 
         getActivity().setTitle(plant.getName());
         textView.setText(plant.getScientific_Name());
-        textView1.setText("Light: " + plant.getLight());
-        textView2.setText("Water: " + plant.getWater());
-        textView3.setText("Fertilizer: " + plant.getFertilizer());
-        textView4.setText("Temperature: " + plant.getTemperature());
-        textView5.setText("Humidity: " + plant.getHumidity());
-        textView6.setText("Flowering: " + plant.getFlowering());
-        textView7.setText("Pests: " + plant.getPests());
-        textView8.setText("Diseases: " + plant.getDiseases());
-        textView9.setText("Soil: " + plant.getSoil());
-        textView10.setText("Pot Size: " + plant.getPot_size());
-        textView11.setText("Pruning: " + plant.getPruning());
-        textView12.setText("Propagation: " + plant.getPropagation());
-        textView13.setText("Poisonous Plant Info: " + plant.getPoisonous_plant_info());
+        textView1.setText(plant.getLight());
+        textView2.setText(plant.getWater());
+        textView3.setText(plant.getFertilizer());
+        textView4.setText(plant.getTemperature());
+        textView5.setText(plant.getHumidity());
+        textView6.setText(plant.getFlowering());
+        textView7.setText(plant.getPests());
+        textView8.setText(plant.getDiseases());
+        textView9.setText(plant.getSoil());
+        textView10.setText(plant.getPot_size());
+        textView11.setText(plant.getPruning());
+        textView12.setText(plant.getPropagation());
+        textView13.setText(plant.getPoisonous_plant_info());
 
         final Button shelfButton = (Button) v.findViewById(R.id.add_shelf_button);
         shelfButton.setOnClickListener(new View.OnClickListener() {
