@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,7 +48,7 @@ public class WishlistFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_wishlist, container, false);
         rvWishlist = view.findViewById(R.id.rvWishlist);
         rvWishlist.setHasFixedSize(true);
-        lmWishlist = new LinearLayoutManager(view.getContext());
+        lmWishlist = new GridLayoutManager(view.getContext(), 2);
         adWishlist = new WishlistAdapter(getContext(), plants);
 
         rvWishlist.setLayoutManager(lmWishlist);

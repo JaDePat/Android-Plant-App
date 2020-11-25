@@ -38,8 +38,6 @@ public class ShelfFragment extends Fragment {
        dpHelper.initializeDataBase();
        plants = dpHelper.getOwnedPlants();
 
-       // android.util.Log.d("INT", String.format("size = %d", plants.size()));
-
     }
 
     @Override
