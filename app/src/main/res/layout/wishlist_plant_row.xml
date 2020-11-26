@@ -2,15 +2,15 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
-    android:layout_width="300dp"
+    android:orientation="vertical"
+    android:layout_width="200sp"
     android:layout_height="wrap_content">
 
 
     <ImageView
         android:id="@+id/ivPlantW"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="200sp"
         android:gravity="center"
         android:src="@drawable/ic_sample_plant" />
 
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         tools:text="Plant Name" />
 
     <TextView
@@ -27,6 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         tools:text="Scientific Name" />
 
 

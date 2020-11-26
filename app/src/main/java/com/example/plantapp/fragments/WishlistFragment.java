@@ -39,7 +39,7 @@ public class WishlistFragment extends Fragment {
 
         DataBaseHelper dpHelper = new DataBaseHelper(getActivity());
         dpHelper.initializeDataBase();
-        plants = dpHelper.getOwnedPlants();
+        plants = dpHelper.getWishlistPlants();
     }
 
     @Override
