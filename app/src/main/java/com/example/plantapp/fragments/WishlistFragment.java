@@ -36,7 +36,6 @@ public class WishlistFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         DataBaseHelper dpHelper = new DataBaseHelper(getActivity());
         dpHelper.initializeDataBase();
         plants = dpHelper.getWishlistPlants();

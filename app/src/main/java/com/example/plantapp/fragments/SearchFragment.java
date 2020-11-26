@@ -1,11 +1,14 @@
 package com.example.plantapp.fragments;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,9 +22,9 @@ import android.view.inputmethod.EditorInfo;
 
 import com.example.plantapp.DataBaseHelper;
 import com.example.plantapp.R;
+import com.example.plantapp.activities.MainActivity;
 import com.example.plantapp.objects.Plant;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,6 +73,7 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        getActivity().setTitle("Search");
 
         DataBaseHelper dpHelper = new DataBaseHelper(getActivity());
         dpHelper.initializeDataBase();
@@ -80,11 +84,11 @@ public class SearchFragment extends Fragment {
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+
         mRecyclerView = view.findViewById(R.id.searchRecyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(view.getContext());
@@ -93,8 +97,21 @@ public class SearchFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_search, container, false);
+        mAdapter.setOnItemClickListener(new PlantAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int position) {
+                Plant plant = plantList.get(position);
+
+                PlantFragment plantFragment = new PlantFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("Selected", plant);
+                plantFragment.setArguments(bundle);
+
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, plantFragment)
+                        .addToBackStack("fragment_plant").commit();
+            }
+        });
+
         return view;
     }
 

@@ -33,7 +33,6 @@ public class ShelfFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
        DataBaseHelper dpHelper = new DataBaseHelper(getActivity());
        dpHelper.initializeDataBase();
        plants = dpHelper.getOwnedPlants();
