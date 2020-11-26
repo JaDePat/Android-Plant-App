@@ -78,7 +78,6 @@ public class SearchFragment extends Fragment {
         DataBaseHelper dpHelper = new DataBaseHelper(getActivity());
         dpHelper.initializeDataBase();
         plantList = dpHelper.getPlants();
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);

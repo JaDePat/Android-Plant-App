@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.ShelfFragment2">
+
+    <ImageView
+        android:id="@+id/ivPlantW"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_sample_plant" />
+
+    <TextView
+        android:id="@+id/tvNameW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivPlantW"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        tools:text="Plant Name" />
+
+    <TextView
+        android:id="@+id/tvSNameW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvNameW"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        tools:text="Scientific Name" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvShelf2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btRemovePlant"
+        android:layout_below="@id/tvSNameW" />
+
+    <Button
+        android:id="@+id/btRemovePlant"
+        android:layout_width="137dp"
+        android:layout_height="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="53dp"
+        android:layout_marginBottom="31dp"
+        android:drawableLeft="@drawable/ic_clear"
+        android:text="Remove from shelf" />
+
+    <Button
+        android:id="@+id/btShelf"
+        android:layout_width="137dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="34dp"
+        android:layout_marginBottom="31dp"
+        android:layout_toEndOf="@+id/btRemovePlant"
+        android:drawableLeft="@drawable/ic_medical_services"
+        android:text="Plant Doctor" />
+
+
+</RelativeLayout>
