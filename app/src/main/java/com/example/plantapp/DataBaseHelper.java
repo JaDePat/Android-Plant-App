@@ -285,7 +285,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     {
         List<Plant> plants = new ArrayList<>();
 
-        String queryString = "SELECT * FROM " + PLANT_TABLE;
+        String queryString = "SELECT * FROM " + PLANT_TABLE + " ORDER BY " + COLUMN_PLANT_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(queryString, null);
