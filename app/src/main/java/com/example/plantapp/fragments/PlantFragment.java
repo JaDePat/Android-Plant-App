@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.plantapp.DataBaseHelper;
 import com.example.plantapp.R;
 import com.example.plantapp.objects.Plant;
 
@@ -73,12 +74,13 @@ public class PlantFragment extends Fragment {
         shelfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShelfFragment shelfFragment = new ShelfFragment();
+                DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext());
+                /*ShelfFragment shelfFragment = new ShelfFragment();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("Add to shelf", plant);
                 shelfFragment.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, shelfFragment)
-                        .addToBackStack(null).commit();
+                        .addToBackStack(null).commit();*/
             }
         });
 
@@ -96,5 +98,5 @@ public class PlantFragment extends Fragment {
         });
 
         return v;
-    };
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.plantapp;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -313,6 +314,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
+
         return plants;
     }
 
@@ -347,6 +351,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 ownedPlants.add(currentPlant);
             } while (cursor.moveToNext());
         }
+
+        db.close();
+        cursor.close();
+
         return ownedPlants;
     }
 
@@ -382,6 +390,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 wishlistPlants.add(currentPlant);
             } while (cursor.moveToNext());
         }
+
+        cursor.close();
+        db.close();
+
         return wishlistPlants;
     }
     public void deleteFromShelf(String get_ID)

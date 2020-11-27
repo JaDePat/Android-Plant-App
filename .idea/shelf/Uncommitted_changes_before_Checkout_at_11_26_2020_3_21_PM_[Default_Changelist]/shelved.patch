@@ -1,0 +1,859 @@
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\r\n\r\nandroid {\r\n    compileSdkVersion 30\r\n\r\n    defaultConfig {\r\n        applicationId \"com.example.plantapp\"\r\n        minSdkVersion 21\r\n        targetSdkVersion 30\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n}\r\n\r\ndependencies {\r\n    compile 'com.alespero:expandable-cardview:0.8'\r\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\r\n    implementation 'androidx.appcompat:appcompat:1.2.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'\r\n    implementation 'com.google.android.material:material:1.2.1'\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    implementation 'androidx.recyclerview:recyclerview-selection:1.0.0'\r\n    implementation 'androidx.cardview:cardview:1.0.0'\r\n\r\n    testImplementation 'junit:junit:4.13.1'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.2'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision eb2ae6133861a362442f7b819d4b5c58fb22cba8)
++++ app/build.gradle	(date 1606432834836)
+@@ -30,7 +30,11 @@
+     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+     implementation 'androidx.recyclerview:recyclerview-selection:1.0.0'
+     implementation 'androidx.cardview:cardview:1.0.0'
++<<<<<<< HEAD
+ 
++=======
++    implementation 'androidx.core:core:1.3.2'
++>>>>>>> master
+     testImplementation 'junit:junit:4.13.1'
+     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+Index: app/src/main/java/com/example/plantapp/DataBaseHelper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.plantapp;\r\n\r\nimport android.content.Context;\r\nimport android.database.Cursor;\r\nimport android.database.sqlite.SQLiteDatabase;\r\nimport android.database.sqlite.SQLiteOpenHelper;\r\nimport android.graphics.Bitmap;\r\nimport android.graphics.BitmapFactory;\r\nimport android.util.Log;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.annotation.Nullable;\r\n\r\nimport com.example.plantapp.fragments.SearchFragment;\r\nimport com.example.plantapp.objects.Plant;\r\n\r\nimport java.io.ByteArrayOutputStream;\r\nimport java.io.File;\r\nimport java.io.FileOutputStream;\r\nimport java.io.IOException;\r\nimport java.io.InputStream;\r\nimport java.io.OutputStream;\r\nimport java.util.ArrayList;\r\nimport java.util.Arrays;\r\nimport java.util.List;\r\n\r\npublic class DataBaseHelper extends SQLiteOpenHelper {\r\n\r\n    private static final String DATABASE_NAME = \"plants.db\";\r\n    private static final String DATABASE_DIRECTORY = \"/data/data/com.example.plantapp/\" +\r\n            \"databases/\";\r\n    private static String DATABASE_PATH = DATABASE_DIRECTORY + DATABASE_NAME;\r\n    private static String OLD_DATABASE_PATH = DATABASE_DIRECTORY + \"old_\" + DATABASE_NAME;\r\n\r\n    private final Context myContext;\r\n\r\n    private boolean createDatabase = false;\r\n    private boolean upgradeDatabase = false;\r\n\r\n    // PLANT_TABLE\r\n    public static final String PLANT_TABLE = \"PLANT_TABLE\";\r\n    public static final String COLUMN_PLANT_ID = \"ID\";\r\n    public static final String COLUMN_PLANT_NAME = \"NAME\";\r\n    public static final String COLUMN_PLANT_SCI_NAME = \"SCIENTIFIC_NAME\";\r\n    public static final String COLUMN_PLANT_LIGHT = \"LIGHT\";\r\n    public static final String COLUMN_PLANT_WATER = \"WATER\";\r\n    public static final String COLUMN_PLANT_FERTILIZER = \"FERTILIZER\";\r\n    public static final String COLUMN_PLANT_TEMPERATURE = \"TEMPERATURE\";\r\n    public static final String COLUMN_PLANT_HUMIDITY = \"HUMIDITY\";\r\n    public static final String COLUMN_PLANT_FLOWERING = \"FLOWERING\";\r\n    public static final String COLUMN_PLANT_PESTS = \"PESTS\";\r\n    public static final String COLUMN_PLANT_DISEASES = \"DISEASES\";\r\n    public static final String COLUMN_PLANT_SOIL = \"SOIL\";\r\n    public static final String COLUMN_PLANT_POT_SIZE = \"POT_SIZE\";\r\n    public static final String COLUMN_PLANT_PRUNING = \"PRUNING\";\r\n    public static final String COLUMN_PLANT_PROPAGATION = \"PROPAGATION\";\r\n    public static final String COLUMN_PLANT_POISON = \"POISONOUS_PLANT_INFO\";\r\n\r\n    // USER_TABLE - keeping this table in case we want to provide a more \"personalized\"\r\n    //              experience by using the user's name\r\n    public static final String USER_TABLE = \"USER_TABLE\";\r\n    public static final String COLUMN_USER_NAME = \"USER_NAME\";\r\n\r\n    // WISHLIST_TABLE\r\n    public static final String WISHLIST_TABLE = \"WISHLIST_TABLE\";\r\n    public static final String COLUMN_WISHLIST_ID = \"WISHLIST_ID\";\r\n    public static final String COLUMN_WISHLIST_PLANT_ID = \"PLANT_ID\"; // references PLANT_TABLE\r\n\r\n    // PLANTS_OWNED_TABLE\r\n    public static final String PLANTS_OWNED_TABLE = \"PLANTS_OWNED_TABLE\";\r\n    public static final String COLUMN_PLANTS_OWNED_ID = \"PLANTS_OWNED_ID\";\r\n    public static final String COLUMN_PLANTS_OWNED_PLANT_ID = \"PLANT_ID\"; // references PLANT_TABLE\r\n\r\n    /*\r\n    * Constructor takes and keeps a reference of the passed context in order to\r\n    * access the application assets and resources\r\n    *\r\n    * */\r\n    public DataBaseHelper(@Nullable Context context) {\r\n        super(context, DATABASE_NAME, null, 1);\r\n        myContext = context;\r\n        // Get the path of the database that is based on the context.\r\n        DATABASE_PATH = myContext.getDatabasePath(DATABASE_NAME).getAbsolutePath();\r\n    }\r\n\r\n    /*\r\n    * Upgrade the database in internal storage if it exists but is not current.\r\n    * Create a new empty database in internal storage if it does not exist.\r\n    * */\r\n    public void initializeDataBase() {\r\n        /*\r\n        * Creates or updates the database in internal storage if it is needed\r\n        * before opening the database. In all cases opening the database copies\r\n        * the database in internal storage to the cache.\r\n        * */\r\n        getWritableDatabase();\r\n\r\n        if (createDatabase) {\r\n            /*\r\n            * If the database is created by the copy method, then the creation\r\n            * code needs to go here. This method consists of copying the new\r\n            * database from assets into internal storage and then caching it.\r\n            * */\r\n            try {\r\n                /*\r\n                * Write over the empty data that created in internal\r\n                * storage with the one in assets and then cache it.\r\n                * */\r\n                copyDataBase();\r\n            } catch (IOException e) {\r\n                throw new Error(\"Error copying database\");\r\n            }\r\n        } else if (upgradeDatabase) {\r\n            /*\r\n            * If the database is upgraded by the copy and reload method, then\r\n            * the upgrade code needs to go here. This method consists of\r\n            * renaming the old database in internal storage, create an empty\r\n            * new database in internal storage, copying the database from\r\n            * assets to the new database in internal storage, caching the new\r\n            * database from internal storage, loading the data from the old\r\n            * database into the new database in the cache and then deleting the\r\n            * old database from internal storage.\r\n            * */\r\n            try {\r\n                FileHelper.copyFile(DATABASE_PATH, OLD_DATABASE_PATH);\r\n                copyDataBase();\r\n                SQLiteDatabase old_db = SQLiteDatabase.openDatabase(OLD_DATABASE_PATH, null, SQLiteDatabase.OPEN_READWRITE);\r\n                SQLiteDatabase new_db = SQLiteDatabase.openDatabase(DATABASE_PATH, null, SQLiteDatabase.OPEN_READWRITE);\r\n                /*\r\n                * Add code to load data into the new database from the old\r\n                * database and then delete the old database from internal\r\n                * storage after all data has been transferred\r\n                * */\r\n            } catch (IOException e) {\r\n                throw new Error(\"Error copying database\");\r\n            }\r\n        }\r\n    }\r\n\r\n    /*\r\n    * Copies your database from your local assets-folder to the just created\r\n    * empty database in the system folder, from where it can be accessed and\r\n    * handled. This is done by transferring bytestream.\r\n    * */\r\n    private void copyDataBase() throws IOException {\r\n        /*\r\n        * Close SQLiteOpenHelper so it will commit the created empty database\r\n        * to internal storage.\r\n        * */\r\n        close();\r\n\r\n        /*\r\n        * Open the database in the assets folder as the input stream.\r\n        */\r\n        InputStream myInput = myContext.getAssets().open(DATABASE_NAME);\r\n\r\n        /*\r\n         * Open the empty db in internal storage as the output stream.\r\n         */\r\n        OutputStream myOutput = new FileOutputStream(DATABASE_PATH);\r\n\r\n        /*\r\n        * Copy over the empty db in internal storage with the database in the\r\n        * assets folder.\r\n        * */\r\n        FileHelper.copyFile(myInput, myOutput);\r\n\r\n        /*\r\n        * Access the copied database so SQLiteHelper will cache it and mark it\r\n        * as created.\r\n        * */\r\n        getWritableDatabase().close();\r\n    }\r\n\r\n    /*\r\n    * This is where the creation of tables and the initial population of the\r\n    * tables should happen, if a database is being created from scratch instead\r\n    * of being copied from the application package assets. Copying a database\r\n    * from the application package assets to internal storage inside this\r\n    * method will result in a corrupted database.\r\n    * NOTE: This method is normally only called when a database has not already\r\n    * been created. when the database has been copied, then this method is\r\n    * called the first time a reference to the database is retrieved after the\r\n    * database is copied since the database last cached by SQLiteOpenHelper is\r\n    * different than the database in internal storage.\r\n    * */\r\n    @Override\r\n    public void onCreate(SQLiteDatabase db) {\r\n\r\n        /*\r\n        * Signal that a new database needs to be copied. The copy process must\r\n        * be performed after the database in the cache has been closed causing\r\n        * it to be committed to internal storage. Otherwise the database in\r\n        * internal storage will not have the same creation timestamp as the one\r\n        * in the cache causing the database in internal storage to be marked as\r\n        * corrupted.\r\n        * */\r\n        createDatabase = true;\r\n\r\n        /*String createTableStatement = \"CREATE TABLE \" + PLANT_TABLE + \" (\" + COLUMN_PLANT_ID + \" INTEGER PRIMARY KEY,\" +\r\n                COLUMN_PLANT_NAME + \" TEXT, \" + COLUMN_PLANT_SCI_NAME + \" TEXT, \" +\r\n                COLUMN_PLANT_LIGHT + \" TEXT, \" + COLUMN_PLANT_WATER + \" TEXT, \" +\r\n                COLUMN_PLANT_FERTILIZER + \" TEXT, \" + COLUMN_PLANT_TEMPERATURE + \" TEXT, \" +\r\n                COLUMN_PLANT_HUMIDITY + \" TEXT, \" + COLUMN_PLANT_FLOWERING + \" TEXT, \" +\r\n                COLUMN_PLANT_PESTS + \" TEXT, \" + COLUMN_PLANT_DISEASES + \" TEXT, \" +\r\n                COLUMN_PLANT_SOIL + \" TEXT, \" + COLUMN_PLANT_POT_SIZE + \" TEXT, \" +\r\n                COLUMN_PLANT_PRUNING + \" TEXT, \" + COLUMN_PLANT_PROPAGATION + \" TEXT, \" +\r\n                COLUMN_PLANT_POISON + \" TEXT)\";\r\n\r\n        db.execSQL(createTableStatement);*/\r\n    }\r\n\r\n\r\n    /*\r\n    * Called only if version number was changed and the database has already\r\n    * been created. Copying a database from the application package assets to\r\n    * the internal data system inside this method will result in a corrupted\r\n    * database in the internal data system.\r\n    * */\r\n    @Override\r\n    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {\r\n        /*\r\n        * Signal that the database needs to be upgraded for the copy method of\r\n        * creation. The copy process must be performed after the database has\r\n        * been opened or the database will be corrupted.\r\n        * */\r\n        upgradeDatabase = true;\r\n\r\n        /*\r\n        * Code to update the database via execution of sql statements goes\r\n        * here.\r\n        * */\r\n    }\r\n\r\n    /*\r\n    * Called everytime the database is opened by getReadableDatabase or\r\n    * getWritableDatabase. This is called after onCreate or onUpgrade is\r\n    * called.\r\n    * */\r\n    @Override\r\n    public void onOpen(SQLiteDatabase db) {\r\n        super.onOpen(db);\r\n    }\r\n\r\n    public List<String> getPlantNamesLike(String whatUserTyped) {\r\n        //List<PlantModel> returnList = new ArrayList<>();\r\n        List<String> returnList = new ArrayList<>();\r\n        String[] nameArg = {whatUserTyped + \"%\"};\r\n\r\n        // get data from the database\r\n        String queryString = \"SELECT \" + COLUMN_PLANT_NAME + \" FROM \" + PLANT_TABLE +\r\n                \" WHERE \" + COLUMN_PLANT_NAME + \" LIKE ?\";\r\n\r\n        SQLiteDatabase db = this.getReadableDatabase();\r\n\r\n        Cursor cursor = db.rawQuery(queryString, nameArg);\r\n\r\n        if (cursor.moveToFirst()) {\r\n\r\n            do{\r\n\r\n                String plantName = cursor.getString(0);\r\n\r\n                //PlantModel newPlant = new PlantModel(plantName);\r\n\r\n                //returnList.add(newPlant);\r\n\r\n                returnList.add(plantName);\r\n\r\n            } while (cursor.moveToNext());\r\n        }\r\n        else {\r\n            // failure. do not add anything to list\r\n            returnList.add(\"No matching plant found\");\r\n        }\r\n\r\n        cursor.close();\r\n        db.close();\r\n\r\n        return returnList;\r\n    }\r\n\r\n    public List<Plant> getPlants()\r\n    {\r\n        List<Plant> plants = new ArrayList<>();\r\n\r\n        String queryString = \"SELECT * FROM \" + PLANT_TABLE;\r\n        SQLiteDatabase db = this.getReadableDatabase();\r\n\r\n        Cursor cursor = db.rawQuery(queryString, null);\r\n\r\n        if(cursor.moveToFirst()) {\r\n            do {\r\n                Plant currentPlant = new Plant();\r\n                currentPlant.setID(cursor.getInt(0));\r\n                currentPlant.setName(cursor.getString(1));\r\n                currentPlant.setScientific_Name(cursor.getString(2));\r\n                currentPlant.setLight(cursor.getString(3));\r\n                currentPlant.setWater(cursor.getString(4));\r\n                currentPlant.setFertilizer(cursor.getString(5));\r\n                currentPlant.setTemperature(cursor.getString(6));\r\n                currentPlant.setHumidity(cursor.getString(7));\r\n                currentPlant.setFlowering(cursor.getString(8));\r\n                currentPlant.setPests(cursor.getString(9));\r\n                currentPlant.setDiseases(cursor.getString(10));\r\n                currentPlant.setSoil(cursor.getString(11));\r\n                currentPlant.setPot_size(cursor.getString(12));\r\n                currentPlant.setPruning(cursor.getString(13));\r\n                currentPlant.setPropagation(cursor.getString(14));\r\n                currentPlant.setPoisonous_plant_info(cursor.getString(15));\r\n\r\n                plants.add(currentPlant);\r\n            } while (cursor.moveToNext());\r\n        }\r\n\r\n        return plants;\r\n    }\r\n\r\n    public List<Plant> getOwnedPlants()\r\n    {\r\n        List<Plant> ownedPlants = new ArrayList<>();\r\n        String queryString = \"SELECT * FROM  PLANT_TABLE  INNER JOIN  PLANTS_OWNED_TABLE ON  PLANTS_OWNED_TABLE.PLANT_ID  = PLANT_TABLE.ID\";\r\n        SQLiteDatabase db = this.getReadableDatabase();\r\n\r\n        Cursor cursor = db.rawQuery(queryString, null);\r\n        android.util.Log.d(\"CURSOR\", String.format(\"size = %d\", cursor.getCount()));\r\n        if(cursor.moveToFirst()) {\r\n            do {\r\n                Plant currentPlant = new Plant();\r\n                currentPlant.setID(cursor.getInt(0));\r\n                currentPlant.setName(cursor.getString(1));\r\n                currentPlant.setScientific_Name(cursor.getString(2));\r\n                currentPlant.setLight(cursor.getString(3));\r\n                currentPlant.setWater(cursor.getString(4));\r\n                currentPlant.setFertilizer(cursor.getString(5));\r\n                currentPlant.setTemperature(cursor.getString(6));\r\n                currentPlant.setHumidity(cursor.getString(7));\r\n                currentPlant.setFlowering(cursor.getString(8));\r\n                currentPlant.setPests(cursor.getString(9));\r\n                currentPlant.setDiseases(cursor.getString(10));\r\n                currentPlant.setSoil(cursor.getString(11));\r\n                currentPlant.setPot_size(cursor.getString(12));\r\n                currentPlant.setPruning(cursor.getString(13));\r\n                currentPlant.setPropagation(cursor.getString(14));\r\n                currentPlant.setPoisonous_plant_info(cursor.getString(15));\r\n\r\n                ownedPlants.add(currentPlant);\r\n            } while (cursor.moveToNext());\r\n        }\r\n        return ownedPlants;\r\n    }\r\n\r\n    public List<Plant> getWishlistPlants()\r\n    {\r\n        List<Plant> wishlistPlants = new ArrayList<>();\r\n        String queryString = \"SELECT * FROM  PLANT_TABLE  INNER JOIN  WISHLIST_TABLE ON WISHLIST_TABLE.PLANT_ID  = PLANT_TABLE.ID\";\r\n        SQLiteDatabase db = this.getReadableDatabase();\r\n\r\n        Cursor cursor = db.rawQuery(queryString, null);\r\n        android.util.Log.d(\"CURSOR\", String.format(\"size = %d\", cursor.getCount()));\r\n        if(cursor.moveToFirst()) {\r\n            do {\r\n                // TODO: make this code less repetitive\r\n                Plant currentPlant = new Plant();\r\n                currentPlant.setID(cursor.getInt(0));\r\n                currentPlant.setName(cursor.getString(1));\r\n                currentPlant.setScientific_Name(cursor.getString(2));\r\n                currentPlant.setLight(cursor.getString(3));\r\n                currentPlant.setWater(cursor.getString(4));\r\n                currentPlant.setFertilizer(cursor.getString(5));\r\n                currentPlant.setTemperature(cursor.getString(6));\r\n                currentPlant.setHumidity(cursor.getString(7));\r\n                currentPlant.setFlowering(cursor.getString(8));\r\n                currentPlant.setPests(cursor.getString(9));\r\n                currentPlant.setDiseases(cursor.getString(10));\r\n                currentPlant.setSoil(cursor.getString(11));\r\n                currentPlant.setPot_size(cursor.getString(12));\r\n                currentPlant.setPruning(cursor.getString(13));\r\n                currentPlant.setPropagation(cursor.getString(14));\r\n                currentPlant.setPoisonous_plant_info(cursor.getString(15));\r\n\r\n                wishlistPlants.add(currentPlant);\r\n            } while (cursor.moveToNext());\r\n        }\r\n        return wishlistPlants;\r\n    }\r\n    public void deleteFromShelf(String get_ID)\r\n    {\r\n        SQLiteDatabase db = this.getWritableDatabase();\r\n        db.beginTransaction();\r\n        String deleteString = \"DELETE FROM PLANTS_OWNED_TABLE WHERE PLANT_ID ='\"+get_ID+\"'\";\r\n        db.execSQL(deleteString);\r\n        db.setTransactionSuccessful();\r\n       // db.execSQL(\"DROP TABLE IF EXISTS PLANTS_OWNED_TABLE\");\r\n        db.endTransaction();\r\n\r\n        Toast.makeText(myContext, \"ere i am\", Toast.LENGTH_SHORT).show();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/plantapp/DataBaseHelper.java	(revision eb2ae6133861a362442f7b819d4b5c58fb22cba8)
++++ app/src/main/java/com/example/plantapp/DataBaseHelper.java	(date 1606432837923)
+@@ -284,7 +284,7 @@
+     {
+         List<Plant> plants = new ArrayList<>();
+ 
+-        String queryString = "SELECT * FROM " + PLANT_TABLE;
++        String queryString = "SELECT * FROM " + PLANT_TABLE + " ORDER BY " + COLUMN_PLANT_NAME;
+         SQLiteDatabase db = this.getReadableDatabase();
+ 
+         Cursor cursor = db.rawQuery(queryString, null);
+@@ -316,6 +316,7 @@
+         return plants;
+     }
+ 
++<<<<<<< HEAD
+     public List<Plant> getOwnedPlants()
+     {
+         List<Plant> ownedPlants = new ArrayList<>();
+@@ -396,4 +397,759 @@
+ 
+         Toast.makeText(myContext, "ere i am", Toast.LENGTH_SHORT).show();
+     }
++=======
++    public ArrayList<Plant> plantWizard(ArrayList<String> lightSelectedChips,
++                                             ArrayList<String> humiditySelectedChips,
++                                             ArrayList<String> poisonSelectedChips,
++                                             int minTemp,
++                                             int maxTemp) {
++        // int _id = 451;
++        // List to hold what the names that we wish to return
++        // List<String> returnList = new ArrayList<>();
++        ArrayList<Plant> returnList = new ArrayList<>();
++        ArrayList<Plant> compoundReturnList = new ArrayList<>();
++
++        // String array to hold temperatures from temperature column
++        String[] temperatureArray;
++
++        // Boolean values for what is in the selectedChip arrays
++        boolean containsBright = false;
++        boolean containsMedium = false;
++        boolean containsLow = false;
++        boolean containsDirect = false;
++        boolean containsIndirect = false;
++
++        boolean containsHumidityVeryHigh = false;
++        boolean containsHumidityHigh = false;
++        boolean containsHumidityModerate = false;
++        boolean containsHumidityLow = false;
++
++        boolean containsPoisonous = false;
++        boolean containsNonPoisonous = false;
++
++        boolean validTemperatures = false;
++
++        int minTempFromArray = 50;
++        int maxTempFromArray = 90;
++
++        boolean maxSixtyCheck = maxTemp > 59;
++        boolean maxSixtyFiveCheck = maxTemp > 64;
++        boolean maxFiftyCheck = maxTemp > 49;
++
++        // Set the boolean values
++        if (lightSelectedChips.contains("Bright")) {
++            containsBright = true;
++        }
++
++        if (lightSelectedChips.contains("Medium")) {
++            containsMedium = true;
++        }
++
++        if (lightSelectedChips.contains("Low")) {
++            containsLow = true;
++        }
++
++        if (lightSelectedChips.contains("Direct")) {
++            containsDirect = true;
++        }
++
++        if (lightSelectedChips.contains("Indirect")) {
++            containsIndirect = true;
++        }
++
++        if (humiditySelectedChips.contains("Very High")) {
++            containsHumidityVeryHigh = true;
++        }
++
++        if (humiditySelectedChips.contains("High")) {
++            containsHumidityHigh = true;
++        }
++
++        if (humiditySelectedChips.contains("Moderate")) {
++            containsHumidityModerate = true;
++        }
++
++        if (humiditySelectedChips.contains("Low")) {
++            containsHumidityLow = true;
++        }
++
++        if (poisonSelectedChips.contains("Poisonous")) {
++            containsPoisonous = true;
++        }
++
++        if (poisonSelectedChips.contains("Non-Poisonous")) {
++            containsNonPoisonous = true;
++        }
++
++        // Select the name, light, scientific_name, and humidity columns
++        String queryString = "SELECT * FROM " + PLANT_TABLE + " ORDER BY " + COLUMN_PLANT_NAME;
++
++        // Execute the query and put the results into a cursor
++        SQLiteDatabase db = this.getReadableDatabase();
++
++        Cursor cursor = db.rawQuery(queryString, null);
++
++        // Loop through cursor and add plants that we wish to display to the ArrayList declared
++        // above
++        if (cursor.moveToFirst()) {
++
++            do {
++
++                // String that holds the contents of the "LIGHT" column
++                String plantLight = cursor.getString(3);
++
++                // String that holds the "NAME" of the plant
++                String plantName = cursor.getString(1);
++
++                // String that holds the "SCIENTIFIC_NAME" of the plant
++                String plantSciName = cursor.getString(2);
++
++                // String that holds the "HUMIDITY" of the plant
++                String plantHumidity = cursor.getString(7);
++                if (plantHumidity == null) {
++                    plantHumidity = "";
++                }
++
++                // String that holds the "POISONOUS_PLANT_INFO" of the plant
++                String plantPoisonInfo = cursor.getString(15);
++                if (plantPoisonInfo == null) {
++                    plantPoisonInfo = "";
++                }
++
++                // String that holds the "TEMPERATURE" of the plant
++                String plantTemperature = cursor.getString(6);
++
++                // PlantModel to hold the current plant that we're on
++                Plant currentPlant = new Plant(cursor.getInt(0), plantName, plantSciName,
++                        plantLight, cursor.getString(4), cursor.getString(5),
++                        plantTemperature, plantHumidity, cursor.getString(8),
++                        cursor.getString(9), cursor.getString(10),
++                        cursor.getString(11), cursor.getString(12),
++                        cursor.getString(13), cursor.getString(14),
++                        plantPoisonInfo);
++
++                // Check if the user selected 'Bright' and check for bright in the "LIGHT" column
++                if (containsBright) {
++                    if (plantLight.contains(" bright ")) {
++                        returnList.add(currentPlant);
++                        compoundReturnList.add(currentPlant);
++                    }
++                }
++
++                // Check if the user selected 'Medium' and add the plants that need 'Medium'
++                // light to the ArrayList
++                //boolean mediumLoopCheck = false;
++                if (containsMedium) {
++                    if (plantLight.contains(" medium ")) {
++                        // if the return list is empty then add the current plant
++                        returnList.add(currentPlant);
++                        compoundReturnList.add(currentPlant);
++                    }
++                }
++
++                // Check if the user selected 'Low' and add the plants that need 'Low' light
++                // to the ArrayList
++                if (containsLow) {
++                    if (!plantName.equals("Dracaena Compacta") &&
++                            !plantName.equals("Ficus Tree") &&
++                            !plantName.equals("Fiddle Leaf Fig Plant") &&
++                            plantLight.contains(" low ")) {
++
++                        // if the return list is empty then add the current plant
++                        returnList.add(currentPlant);
++                        compoundReturnList.add(currentPlant);
++                    }
++                }
++
++                // Check if the user selected 'Direct' and add the plants that need 'Direct' light
++                // to the ArrayList
++                if (containsDirect) {
++                    if (!plantName.equals("Arrowhead Plant") &&
++                            !plantName.equals("Caladium Plant") &&
++                            !plantName.equals("Chinese Evergreen Plant - Amelia") &&
++                            !plantName.equals("Christmas Cactus Plant") &&
++                            !plantName.equals("Chrysanthemum Plant") &&
++                            !plantName.equals("Lucky Bamboo Plant") &&
++                            !plantName.equals("Orchid - Cymbidium") &&
++                            !plantName.equals("Orchid Plant - Phalaenopsis") &&
++                            !plantName.equals("Parlor Palm") &&
++                            !plantName.equals("Philodendron Congo Plant") &&
++                            !plantName.equals("Philodendron Heartleaf") &&
++                            !plantName.equals("Spider Plant") &&
++                            !plantName.equals("Split Leaf Philodendron") &&
++                            plantLight.contains(" direct ") &&
++                            !plantLight.contains(" no direct ") &&
++                            !plantLight.contains(" Avoid direct ") &&
++                            !plantLight.contains(" Too much direct ") &&
++                            !plantLight.contains(" Too much light or direct ")) {
++
++                        // if the return list is empty then add the current plant
++                        returnList.add(currentPlant);
++                        compoundReturnList.add(currentPlant);
++                    }
++                }
++
++                // Check if the user selected 'Indirect' and add the plants that need 'Indirect'
++                // light to the ArrayList
++                if (containsIndirect) {
++                    if (plantLight.contains(" indirect ")) {
++                        returnList.add(currentPlant);
++                        compoundReturnList.add(currentPlant);
++                    }
++                }
++
++                // Check if the user selected 'Very High' humidity and make sure the current plant
++                // fits the amount of light selected
++                boolean humidityVeryHighLoopCheck = false;
++                if (containsHumidityVeryHigh) {
++                    //if (!returnList.isEmpty()) {
++                    if(!compoundReturnList.isEmpty()) {
++                        for (Plant plant : compoundReturnList) {
++                            if ((plant.getName() + plant.getScientific_Name()).equals(
++                                    (currentPlant.getName() + currentPlant.getScientific_Name())
++                            )) {
++                                if (!(!plantName.equals("Geranium Plant") &&
++                                        (plantHumidity.contains("Very high ") ||
++                                                plantHumidity.contains(" very high ")))) {
++                                    compoundReturnList.remove(currentPlant);
++                                }
++                                humidityVeryHighLoopCheck = true;
++                                break;
++                            }
++                        }
++
++                        if (!humidityVeryHighLoopCheck &&
++                                !plantName.equals("Geranium Plant") &&
++                                (plantHumidity.contains("Very high ") ||
++                                        plantHumidity.contains(" very high "))) {
++
++                            //returnList.add(currentPlant);
++                            if (lightSelectedChips.isEmpty()) {
++                                compoundReturnList.add(currentPlant);
++                            }
++                        }
++                    } else if (!plantName.equals("Geranium Plant") &&
++                            plantHumidity.contains("Very high ") ||
++                            plantHumidity.contains(" very high ")) {
++                        //returnList.add(currentPlant);
++                        if (lightSelectedChips.isEmpty()) {
++                            compoundReturnList.add(currentPlant);
++                        }
++                    }
++                }
++
++                // Check if the user selected 'High' humidity and make sure the current plant
++                // fits the amount of light selected
++                boolean humidityHighLoopCheck = false;
++                if (containsHumidityHigh) {
++                    //if (!returnList.isEmpty()) {
++                    if(!compoundReturnList.isEmpty()) {
++                        for (Plant plant : compoundReturnList) {
++                            if ((plant.getName() + plant.getScientific_Name()).equals(
++                                    (currentPlant.getName() + currentPlant.getScientific_Name())
++                            )) {
++                                if (plantName.equals("Agave Plant") ||
++                                        plantName.equals("Geranium Plant") ||
++                                        plantHumidity.contains(" very high humidity")) {
++                                    compoundReturnList.remove(currentPlant);
++                                }
++
++                                if (!plantHumidity.contains(" high humidity") &&
++                                        !plantHumidity.contains(" higher ") &&
++                                        !plantHumidity.contains(" plenty of humidity") &&
++                                        !plantHumidity.contains(" more humid ") &&
++                                        !plantHumidity.contains("High humidity")) {
++
++                                    if (!plantName.equals("Peperomia Plant") &&
++                                            !plantName.equals("Peperomia Plant - Caperata") &&
++                                            !plantName.equals("Terrarium")) {
++
++                                        compoundReturnList.remove(currentPlant);
++                                    }
++                                }
++
++                                humidityHighLoopCheck = true;
++                                break;
++                            }
++                        }
++
++                        if (!humidityHighLoopCheck &&
++                                !plantName.equals("Agave Plant") &&
++                                !plantName.equals("Geranium Plant") &&
++                                !plantHumidity.contains(" very high humidity")) {
++
++                            if (plantName.equals("Peperomia Plant") ||
++                                    plantName.equals("Peperomia Plant - Caperata") ||
++                                    plantName.equals("Terrarium")) {
++
++                                //returnList.add(currentPlant);
++                                if (lightSelectedChips.isEmpty()) {
++                                    compoundReturnList.add(currentPlant);
++                                }
++                            }
++
++                            if (plantHumidity.contains(" high humidity") ||
++                                    plantHumidity.contains(" higher ") ||
++                                    plantHumidity.contains(" plenty of humidity") ||
++                                    plantHumidity.contains(" more humid ") ||
++                                    plantHumidity.contains("High humidity")) {
++
++                                //returnList.add(currentPlant);
++                                if (lightSelectedChips.isEmpty()) {
++                                    compoundReturnList.add(currentPlant);
++                                }
++                            }
++                        }
++                    } else if (!plantName.equals("Agave Plant") &&
++                            !plantName.equals("Geranium Plant") &&
++                            !plantHumidity.contains(" very high humidity")) {
++
++                        if (plantHumidity.contains(" high humidity") ||
++                                plantHumidity.contains(" higher ") ||
++                                plantHumidity.contains(" plenty of humidity") ||
++                                plantHumidity.contains(" more humid ") ||
++                                plantHumidity.contains("High humidity")) {
++
++                            //returnList.add(currentPlant);
++                            if (lightSelectedChips.isEmpty()) {
++                                compoundReturnList.add(currentPlant);
++                            }
++                        }
++                    }
++                }
++
++                // Check if the user selected 'Moderate' humidity and make sure the current
++                // fits the amount of light selected
++                boolean humidityModerateLoopCheck = false;
++                if (containsHumidityModerate) {
++                    //if (!returnList.isEmpty()) {
++                    if(!compoundReturnList.isEmpty()) {
++                        for (Plant plant : compoundReturnList) {
++                            if ((plant.getName() + plant.getScientific_Name()).equals(
++                                    (currentPlant.getName() + currentPlant.getScientific_Name())
++                            )) {
++
++                                if (plantName.equals("Gardenia Plant")) {
++                                    compoundReturnList.remove(currentPlant);
++                                }
++
++                                if (!plantHumidity.contains(" moderate ") &&
++                                        !plantHumidity.contains("Moderate ") &&
++                                        !plantHumidity.contains(" household humidity") &&
++                                        !plantHumidity.contains(" average ") &&
++                                        !plantHumidity.contains(" medium ") &&
++                                        !plantHumidity.contains("Average ") &&
++                                        !plantHumidity.contains(" normal ") &&
++                                        !plantHumidity.contains("Medium ")) {
++
++                                    compoundReturnList.remove(currentPlant);
++                                }
++
++                                humidityModerateLoopCheck = true;
++                                break;
++                            }
++                        }
++
++                        if (!humidityModerateLoopCheck && !plantName.equals("Gardenia Plant")) {
++                            if (plantHumidity.contains(" moderate ") ||
++                                    plantHumidity.contains("Moderate ") ||
++                                    plantHumidity.contains(" household humidity") ||
++                                    plantHumidity.contains(" average ") ||
++                                    plantHumidity.contains(" medium ") ||
++                                    plantHumidity.contains("Average ") ||
++                                    plantHumidity.contains(" normal ") ||
++                                    plantHumidity.contains("Medium ")) {
++
++                                //returnList.add(currentPlant);
++                                if (lightSelectedChips.isEmpty()) {
++                                    compoundReturnList.add(currentPlant);
++                                }
++                            }
++                        }
++                    } else if (plantHumidity.contains(" moderate ") ||
++                            plantHumidity.contains("Moderate ") ||
++                            plantHumidity.contains(" household humidity") ||
++                            plantHumidity.contains(" average ") ||
++                            plantHumidity.contains(" medium ") ||
++                            plantHumidity.contains("Average ") ||
++                            plantHumidity.contains(" normal ") ||
++                            plantHumidity.contains("Medium ")) {
++
++                        //returnList.add(currentPlant);
++                        if (lightSelectedChips.isEmpty()) {
++                            compoundReturnList.add(currentPlant);
++                        }
++                    }
++                }
++
++                // Check if the user selected 'Low' humidity and make sure the current
++                // fits the amount of light selected
++                boolean humidityLowLoopCheck = false;
++                if (containsHumidityLow) {
++                    //if (!returnList.isEmpty()) {
++                    if(!compoundReturnList.isEmpty()) {
++                        for (Plant plant : compoundReturnList) {
++                            if ((plant.getName() + plant.getScientific_Name()).equals(
++                                    (currentPlant.getName() + currentPlant.getScientific_Name())
++                            )) {
++
++                                if (plantName.equals("Aralia Plant") ||
++                                        plantName.equals("Aralia Plant - Balfour") ||
++                                        plantName.equals("Boston Fern") ||
++                                        plantName.equals("Geranium Plant") ||
++                                        plantName.equals("Kangaroo Paw Fern") ||
++                                        plantName.equals("Kimberly Queen Fern") ||
++                                        plantName.equals("Persian Shield Plant")) {
++
++                                    compoundReturnList.remove(currentPlant);
++                                }
++
++                                if (!plantHumidity.contains(" low humidity") &&
++                                        !plantHumidity.contains("Low humidity") &&
++                                        !plantHumidity.contains(" very little ") &&
++                                        !plantHumidity.contains(" lower ")) {
++
++                                    compoundReturnList.remove(currentPlant);
++                                }
++
++                                humidityLowLoopCheck = true;
++                                break;
++                            }
++                        }
++
++                        if (!humidityLowLoopCheck &&
++                                !plantName.equals("Aralia Plant") &&
++                                !plantName.equals("Aralia Plant - Balfour") &&
++                                !plantName.equals("Boston Fern") &&
++                                !plantName.equals("Geranium Plant") &&
++                                !plantName.equals("Kangaroo Paw Fern") &&
++                                !plantName.equals("Kimberly Queen Fern") &&
++                                !plantName.equals("Persian Shield Plant")) {
++
++                            if (plantHumidity.contains(" low humidity") ||
++                                    plantHumidity.contains("Low humidity") ||
++                                    plantHumidity.contains(" very little ") ||
++                                    plantHumidity.contains(" lower ")) {
++
++                                //returnList.add(currentPlant);
++                                if (lightSelectedChips.isEmpty()) {
++                                    compoundReturnList.add(currentPlant);
++                                }
++                            }
++                        }
++                    } else if (plantHumidity.contains(" low humidity") ||
++                            plantHumidity.contains("Low humidity") ||
++                            plantHumidity.contains(" very little ") ||
++                            plantHumidity.contains(" lower ")) {
++
++                        //returnList.add(currentPlant);
++                        if (lightSelectedChips.isEmpty()) {
++                            compoundReturnList.add(currentPlant);
++                        }
++                    }
++                }
++
++                // Check if the user selected 'Poisonous' and make sure the current plant
++                // fits the amount of light and humidity selected
++                boolean poisonPoisonousLoopCheck = false;
++                if (containsPoisonous) {
++                    if (!compoundReturnList.isEmpty()) {
++                        for (Plant plant : compoundReturnList) {
++                            if ((plant.getName() + plant.getScientific_Name()).equals(
++                                    (currentPlant.getName() + currentPlant.getScientific_Name())
++                            )) {
++                                if (plantPoisonInfo.equals("") ||
++                                        plantPoisonInfo.contains("- poisonous") ||
++                                        plantPoisonInfo.contains("-poisonous") ||
++                                        plantPoisonInfo.contains("- Poisonous") ||
++                                        plantPoisonInfo.contains("-Poisonous")) {
++
++                                    compoundReturnList.remove(currentPlant);
++                                }
++
++                                poisonPoisonousLoopCheck = true;
++                                break;
++                            }
++                        }
++
++                        if (!poisonPoisonousLoopCheck &&
++                                !plantPoisonInfo.equals("") &&
++                                !plantPoisonInfo.contains("- poisonous") &&
++                                !plantPoisonInfo.contains("-poisonous") &&
++                                !plantPoisonInfo.contains("- Poisonous") &&
++                                !plantPoisonInfo.contains("-Poisonous")) {
++
++                            //returnList.add(currentPlant);
++                            if (lightSelectedChips.isEmpty() && humiditySelectedChips.isEmpty()) {
++                                compoundReturnList.add(currentPlant);
++                            }
++                        }
++                    }
++                    else if (!plantPoisonInfo.equals("") &&
++                            !plantPoisonInfo.contains("- poisonous") &&
++                            !plantPoisonInfo.contains("-poisonous") &&
++                            !plantPoisonInfo.contains("- Poisonous") &&
++                            !plantPoisonInfo.contains("-Poisonous")) {
++
++                        //returnList.add(currentPlant);
++                        if (lightSelectedChips.isEmpty() && humiditySelectedChips.isEmpty()) {
++                            compoundReturnList.add(currentPlant);
++                        }
++                    }
++
++                    /*if (!returnList.isEmpty()) {
++                        for (PlantModel plant : returnList) {
++                            if ((plant.getName() + plant.getScientific_name()).equals(
++                                    (currentPlant.getName() + currentPlant.getScientific_name())
++                            )) {
++                                poisonPoisonousLoopCheck = true;
++                                break;
++                            }
++                        }
++
++                        if (!poisonPoisonousLoopCheck &&
++                                !plantPoisonInfo.equals("") &&
++                                !plantPoisonInfo.contains("- poisonous") &&
++                                !plantPoisonInfo.contains("-poisonous") &&
++                                !plantPoisonInfo.contains("- Poisonous") &&
++                                !plantPoisonInfo.contains("-Poisonous")) {
++
++                            returnList.add(currentPlant);
++                            if (lightSelectedChips.isEmpty() && humiditySelectedChips.isEmpty()) {
++                                compoundReturnList.add(currentPlant);
++                            }
++                        }
++                    } else if (!plantPoisonInfo.equals("") &&
++                            !plantPoisonInfo.contains("- poisonous") &&
++                            !plantPoisonInfo.contains("-poisonous") &&
++                            !plantPoisonInfo.contains("- Poisonous") &&
++                            !plantPoisonInfo.contains("-Poisonous")) {
++
++                        returnList.add(currentPlant);
++                        if (lightSelectedChips.isEmpty() && humiditySelectedChips.isEmpty()) {
++                            compoundReturnList.add(currentPlant);
++                        }
++                    }*/
++                }
++
++                // Check if the user selected 'Non-Poisonous' and make sure the current plant
++                // fits the amount of light and humidity selected
++                boolean poisonNonPoisonousLoopCheck = false;
++                if (containsNonPoisonous) {
++                    if (!compoundReturnList.isEmpty()) {
++                        for (Plant plant : compoundReturnList) {
++                            if ((plant.getName() + plant.getScientific_Name()).equals(
++                                    (currentPlant.getName() + currentPlant.getScientific_Name())
++                            )) {
++                                if (!plantPoisonInfo.contains("Non-") &&
++                                        !plantPoisonInfo.contains("Non -") &&
++                                        !plantPoisonInfo.contains("non-") &&
++                                        !plantPoisonInfo.contains("non -")) {
++
++                                    compoundReturnList.remove(currentPlant);
++                                }
++
++                                poisonNonPoisonousLoopCheck = true;
++                                break;
++                            }
++                        }
++
++                        if (!poisonNonPoisonousLoopCheck) {
++                            if (plantPoisonInfo.contains("Non-") ||
++                                    plantPoisonInfo.contains("Non -") ||
++                                    plantPoisonInfo.contains("non-") ||
++                                    plantPoisonInfo.contains("non -")) {
++
++                                //returnList.add(currentPlant);
++                                if (lightSelectedChips.isEmpty() && humiditySelectedChips.isEmpty()) {
++                                    compoundReturnList.add(currentPlant);
++                                }
++                            }
++                        }
++                    }
++                    else if (plantPoisonInfo.contains("Non-") ||
++                            plantPoisonInfo.contains("Non -") ||
++                            plantPoisonInfo.contains("non-") ||
++                            plantPoisonInfo.contains("non -")) {
++
++                        //returnList.add(currentPlant);
++                        if (lightSelectedChips.isEmpty() && humiditySelectedChips.isEmpty()) {
++                            compoundReturnList.add(currentPlant);
++                        }
++                    }
++
++                    /*if (!returnList.isEmpty()) {
++                        for (PlantModel plant : returnList) {
++                            if ((plant.getName() + plant.getScientific_name()).equals(
++                                    (currentPlant.getName() + currentPlant.getScientific_name())
++                            )) {
++                                poisonNonPoisonousLoopCheck = true;
++                                break;
++                            }
++                        }
++
++                        if (!poisonNonPoisonousLoopCheck) {
++                            if (plantPoisonInfo.contains("Non-") ||
++                                    plantPoisonInfo.contains("Non -") ||
++                                    plantPoisonInfo.contains("non-") ||
++                                    plantPoisonInfo.contains("non -")) {
++
++                                returnList.add(currentPlant);
++                                if (lightSelectedChips.isEmpty() && humiditySelectedChips.isEmpty()) {
++                                    compoundReturnList.add(currentPlant);
++                                }
++                            }
++                        }
++                    } else if (plantPoisonInfo.contains("Non-") ||
++                            plantPoisonInfo.contains("Non -") ||
++                            plantPoisonInfo.contains("non-") ||
++                            plantPoisonInfo.contains("non -")) {
++
++                        returnList.add(currentPlant);
++                        if (lightSelectedChips.isEmpty() && humiditySelectedChips.isEmpty()) {
++                            compoundReturnList.add(currentPlant);
++                        }
++                    }*/
++                }
++
++                // loop check for the temperature test
++                boolean temperatureLoopCheck = false;
++
++                // Removes plants that don't fit the temperature range provided by the user
++                if (!compoundReturnList.isEmpty()) {
++                    for (Plant plant : compoundReturnList) {
++                        if (!lightSelectedChips.isEmpty() || !humiditySelectedChips.isEmpty() || !poisonSelectedChips.isEmpty()) {
++                            if ((plant.getName() + plant.getScientific_Name()).equals(
++                                    (currentPlant.getName() + currentPlant.getScientific_Name())
++                            )) {
++                                if (plantTemperature != null) {
++                                    temperatureArray = plantTemperature.split("\\D+");
++
++                                    if (plantName.equals("Begonia Rex") && !maxSixtyCheck) {
++                                        compoundReturnList.remove(currentPlant);
++                                    } else if (plantName.equals("Bromeliad - Silver Vase") && !maxSixtyCheck) {
++                                        compoundReturnList.remove(currentPlant);
++                                    } else if (plantName.equals("Chrysanthemum Plant") && !maxSixtyCheck) {
++                                        compoundReturnList.remove(currentPlant);
++                                    } else if (plantName.equals("Desert Rose Plant") && !maxSixtyCheck) {
++                                        compoundReturnList.remove(currentPlant);
++                                    } else if (plantName.equals("Dracaena Reflexa Song of India") && !maxSixtyFiveCheck) {
++                                        compoundReturnList.remove(currentPlant);
++                                    } else if (plantName.equals("Hawaiian Schefflera - Gold Capella") && !maxSixtyFiveCheck) {
++                                        compoundReturnList.remove(currentPlant);
++                                    } else if (plantName.equals("Hawaiian Schefflera Plant") && !maxSixtyFiveCheck) {
++                                        compoundReturnList.remove(currentPlant);
++                                    } else if (plantName.equals("Kimberly Queen Fern") && !maxSixtyCheck) {
++                                        compoundReturnList.remove(currentPlant);
++                                    } else if (plantName.equals("Maidenhair Fern") && !maxFiftyCheck) {
++                                        compoundReturnList.remove(currentPlant);
++                                    } else if (plantName.equals("Moses in the Cradle Plant") && !maxSixtyCheck) {
++                                        compoundReturnList.remove(currentPlant);
++                                    } else if (plantName.equals("Stromanthe Tricolor Plant") && !maxSixtyCheck) {
++                                        compoundReturnList.remove(currentPlant);
++                                    } else if (plantName.equals("Terrarium") && !maxSixtyCheck) {
++                                        compoundReturnList.remove(currentPlant);
++                                    } else if (temperatureArray.length > 2 &&
++                                            !plantName.equals("Bromeliad - Silver Vase") &&
++                                            !plantName.equals("Chrysanthemum Plant") &&
++                                            !plantName.equals("Dracaena Reflexa Song of India") &&
++                                            !plantName.equals("Kimberly Queen Fern") &&
++                                            !plantName.equals("Moses in the Cradle Plant")) {
++                                        minTempFromArray = Integer.parseInt(temperatureArray[1]);
++
++                                        if (maxTemp < minTempFromArray) {
++                                            compoundReturnList.remove(currentPlant);
++                                        }
++                                    }
++                                }
++                            }
++                        }
++                    }
++                }
++
++                // Returns plants that fit the temperature range given by the user if they
++                // only give a temperature range
++                if (!returnList.isEmpty()) {
++                    for (Plant plant : returnList) {
++                        if ((plant.getName() + plant.getScientific_Name()).equals(
++                                (currentPlant.getName() + currentPlant.getScientific_Name())
++                        )) {
++                            temperatureLoopCheck = true;
++                            break;
++                        }
++                    }
++
++                    if (!temperatureLoopCheck) {
++                        if (plantTemperature != null) {
++                            temperatureArray = plantTemperature.split("\\D+");
++
++                            if (plantName.equals("Begonia Rex") && maxSixtyCheck) {
++                                returnList.add(currentPlant);
++                            } else if (plantName.equals("Bromeliad - Silver Vase") && maxSixtyCheck) {
++                                returnList.add(currentPlant);
++                            } else if (plantName.equals("Chrysanthemum Plant") && maxSixtyCheck) {
++                                returnList.add(currentPlant);
++                            } else if (plantName.equals("Desert Rose Plant") && maxSixtyCheck) {
++                                returnList.add(currentPlant);
++                            } else if (plantName.equals("Dracaena Reflexa Song of India") && maxSixtyFiveCheck) {
++                                returnList.add(currentPlant);
++                            } else if (plantName.equals("Hawaiian Schefflera - Gold Capella") && maxSixtyFiveCheck) {
++                                returnList.add(currentPlant);
++                            } else if (plantName.equals("Hawaiian Schefflera Plant") && maxSixtyFiveCheck) {
++                                returnList.add(currentPlant);
++                            } else if (plantName.equals("Kimberly Queen Fern") && maxSixtyCheck) {
++                                returnList.add(currentPlant);
++                            } else if (plantName.equals("Maidenhair Fern") && maxFiftyCheck) {
++                                returnList.add(currentPlant);
++                            } else if (plantName.equals("Moses in the Cradle Plant") && maxSixtyCheck) {
++                                returnList.add(currentPlant);
++                            } else if (plantName.equals("Stromanthe Tricolor Plant") && maxSixtyCheck) {
++                                returnList.add(currentPlant);
++                            } else if (plantName.equals("Terrarium") && maxSixtyCheck) {
++                                returnList.add(currentPlant);
++                            } else if (temperatureArray.length > 2 &&
++                                    !plantName.equals("Bromeliad - Silver Vase") &&
++                                    !plantName.equals("Chrysanthemum Plant") &&
++                                    !plantName.equals("Dracaena Reflexa Song of India") &&
++                                    !plantName.equals("Kimberly Queen Fern") &&
++                                    !plantName.equals("Moses in the Cradle Plant")) {
++                                minTempFromArray = Integer.parseInt(temperatureArray[1]);
++
++                                if (maxTemp >= minTempFromArray) {
++                                    returnList.add(currentPlant);
++                                }
++                            }
++                        }
++                    }
++                } else if (plantTemperature != null) {
++                    temperatureArray = plantTemperature.split("\\D+");
++                    if (temperatureArray.length > 2) {
++                        minTempFromArray = Integer.parseInt(temperatureArray[1]);
++                        if (maxTemp >= minTempFromArray) {
++                            returnList.add(currentPlant);
++                        }
++                    }
++                }
++
++            } while (cursor.moveToNext());
++
++        } else {
++            // failure
++            returnList.add(new Plant(450, "Something went wrong", "", "", "",
++                    "", "", "", "", "", "", "", "", "", "", ""));
++        }
++
++        // clean up
++        cursor.close();
++        db.close();
++
++        //return returnList;
++        if (lightSelectedChips.isEmpty() && humiditySelectedChips.isEmpty() && poisonSelectedChips.isEmpty()) {
++            return returnList;
++        } else {
++            return compoundReturnList;
++        }
++    }
++
++>>>>>>> master
+ }
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">PlantApp</string>\r\n    <string name=\"shelf\">shelf</string>\r\n    <string name=\"search\">search</string>\r\n    <string name=\"wishlist\">wishlist</string>\r\n    <!-- TODO: Remove or change this placeholder text -->\r\n    <string name=\"hello_blank_fragment\">Hello blank fragment</string>\r\n    <string name=\"Light\">Light</string>\r\n    <string name=\"expand_more_icon\">expand more icon</string>\r\n    <string name=\"sun_icon\">sun icon</string>\r\n    <string name=\"Water\">Water</string>\r\n    <string name=\"Fertilizer\">Fertilizer</string>\r\n    <string name=\"Temperature\">Temperature</string>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision eb2ae6133861a362442f7b819d4b5c58fb22cba8)
++++ app/src/main/res/values/strings.xml	(date 1606432839015)
+@@ -3,12 +3,41 @@
+     <string name="shelf">shelf</string>
+     <string name="search">search</string>
+     <string name="wishlist">wishlist</string>
++    <string name="chooseCharacterisiticsString">Choose the Plant Characteristics to Filter</string>
++    <string name="bright">Bright</string>
++    <string name="light">Light</string>
++    <string name="Low">Low</string>
++    <string name="Direct">Direct</string>
++    <string name="Indirect">Indirect</string>
++    <string name="Medium">Medium</string>
++    <string name="ShowMeThePlants">Show Me The Plants!</string>
++    <string name="PlantWizard">Plant Wizard</string>
++    <string name="Humidity">Humidity</string>
++    <string name="VeryHigh">Very High</string>
++    <string name="High">High</string>
++    <string name="Moderate">Moderate</string>
++    <string name="Poisonous">Poisonous</string>
++    <string name="NonPoisonous">Non-Poisonous</string>
++    <string name="Poison">Poison</string>
++    <string name="WhatTemperatureRangeYouCanProvide">What Temperature Range Can You Provide?</string>
++    <string name="Maximum">Maximum</string>
++    <string name="Minimum">Minimum</string>
++    <string name="degreesFahrenheit">&#xb0;F</string>
++    <string name="showPlantWizard">Show The Plant Wizard</string>
++    <string name="Reopen">Reopen</string>
++    <string name="MinLabel">Min:</string>
++    <string name="MaxLabel">Max:</string>
+     <!-- TODO: Remove or change this placeholder text -->
+     <string name="hello_blank_fragment">Hello blank fragment</string>
++<<<<<<< HEAD
+     <string name="Light">Light</string>
+     <string name="expand_more_icon">expand more icon</string>
+     <string name="sun_icon">sun icon</string>
+     <string name="Water">Water</string>
+     <string name="Fertilizer">Fertilizer</string>
+     <string name="Temperature">Temperature</string>
++=======
++    <string name="LightRequirement">Light Requirement</string>
++    <string name="HumidityRequirement">Humidity Requirement</string>
++>>>>>>> master
+ </resources>
+\ No newline at end of file
