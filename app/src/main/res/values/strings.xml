@@ -3,6 +3,30 @@
     <string name="shelf">shelf</string>
     <string name="search">search</string>
     <string name="wishlist">wishlist</string>
+    <string name="chooseCharacterisiticsString">Choose the Plant Characteristics to Filter</string>
+    <string name="bright">Bright</string>
+    <string name="light">Light</string>
+    <string name="Low">Low</string>
+    <string name="Direct">Direct</string>
+    <string name="Indirect">Indirect</string>
+    <string name="Medium">Medium</string>
+    <string name="ShowMeThePlants">Show Me The Plants!</string>
+    <string name="PlantWizard">Plant Wizard</string>
+    <string name="Humidity">Humidity</string>
+    <string name="VeryHigh">Very High</string>
+    <string name="High">High</string>
+    <string name="Moderate">Moderate</string>
+    <string name="Poisonous">Poisonous</string>
+    <string name="NonPoisonous">Non-Poisonous</string>
+    <string name="Poison">Poison</string>
+    <string name="WhatTemperatureRangeYouCanProvide">What Temperature Range Can You Provide?</string>
+    <string name="Maximum">Maximum</string>
+    <string name="Minimum">Minimum</string>
+    <string name="degreesFahrenheit">&#xb0;F</string>
+    <string name="showPlantWizard">Show The Plant Wizard</string>
+    <string name="Reopen">Reopen</string>
+    <string name="MinLabel">Min:</string>
+    <string name="MaxLabel">Max:</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Light">Light</string>
@@ -11,4 +35,6 @@
     <string name="Water">Water</string>
     <string name="Fertilizer">Fertilizer</string>
     <string name="Temperature">Temperature</string>
+    <string name="LightRequirement">Light Requirement</string>
+    <string name="HumidityRequirement">Humidity Requirement</string>
 </resources>

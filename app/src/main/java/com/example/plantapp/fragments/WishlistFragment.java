@@ -45,6 +45,7 @@ public class WishlistFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_wishlist, container, false);
+        getActivity().setTitle("Wishlist");
         rvWishlist = view.findViewById(R.id.rvWishlist);
         rvWishlist.setHasFixedSize(true);
         lmWishlist = new GridLayoutManager(view.getContext(), 2);

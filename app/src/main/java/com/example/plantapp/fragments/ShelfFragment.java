@@ -43,6 +43,7 @@ public class ShelfFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shelf, container, false);
+        getActivity().setTitle("Shelf");
         rvShelf = view.findViewById(R.id.rvShelf);
         rvShelf.setHasFixedSize(true);
         lmShelf = new LinearLayoutManager(view.getContext());
