@@ -396,6 +396,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         return wishlistPlants;
     }
+
     public void deleteFromShelf(String get_ID)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -406,7 +407,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
        // db.execSQL("DROP TABLE IF EXISTS PLANTS_OWNED_TABLE");
         db.endTransaction();
 
-        Toast.makeText(myContext, "ere i am", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(myContext, "ere i am", Toast.LENGTH_SHORT).show();
     }
 
     public ArrayList<Plant> plantWizard(ArrayList<String> lightSelectedChips,
@@ -1160,6 +1161,64 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         } else {
             return compoundReturnList;
         }
+    }
+
+    public long addToShelf(Plant plant) {
+        String queryString = "SELECT * FROM  PLANT_TABLE  INNER JOIN  PLANTS_OWNED_TABLE ON  PLANTS_OWNED_TABLE.PLANT_ID  = PLANT_TABLE.ID";
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if(cursor.moveToFirst()) {
+            do{
+                if(cursor.getInt(0) == plant.getID()) {
+                    return -2;
+                }
+            }while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PLANTS_OWNED_PLANT_ID, plant.getID());
+
+        long newRowId = db.insert(PLANTS_OWNED_TABLE, null, values);
+
+        db.close();
+
+        return newRowId;
+    }
+
+    public long addToWishList(Plant plant) {
+        String queryString = "SELECT * FROM  PLANT_TABLE  INNER JOIN  WISHLIST_TABLE ON WISHLIST_TABLE.PLANT_ID  = PLANT_TABLE.ID";
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if(cursor.moveToFirst()) {
+            do{
+                if(cursor.getInt(0) == plant.getID()) {
+                    return -2;
+                }
+            }while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_WISHLIST_PLANT_ID, plant.getID());
+
+        long newRowId = db.insert(WISHLIST_TABLE, null, values);
+
+        db.close();
+
+        return newRowId;
     }
 
 }

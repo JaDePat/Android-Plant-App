@@ -35,7 +35,9 @@
             android:clickable="true"
             android:src="?android:attr/actionModeFindDrawable"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@string/PlantWizard"
+            android:focusable="true" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

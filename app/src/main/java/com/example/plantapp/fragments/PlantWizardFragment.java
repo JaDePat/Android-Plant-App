@@ -6,9 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -226,7 +229,7 @@ public class PlantWizardFragment extends Fragment {
         // Get the recycler view and set an empty adapter
         mRecyclerView = view.findViewById(R.id.rc_plantsList);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getContext());
+        mLayoutManager = new LinearLayoutManager(view.getContext());
         mAdapter = new PlantAdapter(new ArrayList<Plant>());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -252,6 +255,7 @@ public class PlantWizardFragment extends Fragment {
                     mAdapter = new PlantAdapter(results);
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mRecyclerView.setAdapter(mAdapter);
+                    mRecyclerView.setBackgroundColor(getResources().getColor(R.color.plantWizardBackground));
 
                     String numResults = results.size() + " results";
                     numberOfResults.setText(numResults);
@@ -269,9 +273,11 @@ public class PlantWizardFragment extends Fragment {
                             bundle.putParcelable("Selected", plant);
                             plantFragment.setArguments(bundle);
 
-                            getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fl_plantWizardContainer, plantFragment).commit();
-                            getActivity().getSupportFragmentManager().beginTransaction().hide(PlantWizardFragment.this).commit();
-                            getActivity().getSupportFragmentManager().beginTransaction().show(plantFragment).commit();
+                            FragmentTransaction fragTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                            fragTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out_for_sliding_right);
+                            fragTransaction.add(R.id.fl_plantWizardContainer, plantFragment);
+                            fragTransaction.hide(PlantWizardFragment.this).show(plantFragment).commit();
+                            //getActivity().getSupportFragmentManager().beginTransaction().show(plantFragment).commit();
 
                         }
                     });

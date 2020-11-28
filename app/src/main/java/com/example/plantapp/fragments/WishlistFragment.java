@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.plantapp.DataBaseHelper;
 import com.example.plantapp.R;
@@ -21,6 +22,7 @@ import com.example.plantapp.fragments.ShelfAdapter;
 import com.example.plantapp.fragments.ShelfFragment2;
 import com.example.plantapp.objects.Plant;
 
+import java.util.ArrayList;
 import java.util.List;
 // Displays a list of the plants that the user owns
 public class WishlistFragment extends Fragment {
@@ -28,6 +30,7 @@ public class WishlistFragment extends Fragment {
     private WishlistAdapter adWishlist;
     private RecyclerView.LayoutManager lmWishlist;
     private List<Plant> plants;
+    private TextView wishlistWelcome, wishlistWelcome2, wishlistWelcome3;
 
     public WishlistFragment() {
         // Required empty public constructor
@@ -46,28 +49,49 @@ public class WishlistFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_wishlist, container, false);
         getActivity().setTitle("Wishlist");
+
+        wishlistWelcome = view.findViewById(R.id.wishlistWelcome);
+        wishlistWelcome2 = view.findViewById(R.id.wishlistWelcome2);
+        wishlistWelcome3 = view.findViewById(R.id.wishlistWelcome3);
+
         rvWishlist = view.findViewById(R.id.rvWishlist);
         rvWishlist.setHasFixedSize(true);
         lmWishlist = new GridLayoutManager(view.getContext(), 2);
-        adWishlist = new WishlistAdapter(getContext(), plants);
-
         rvWishlist.setLayoutManager(lmWishlist);
-        rvWishlist.setAdapter(adWishlist);
 
-        adWishlist.setOnItemClickListener(new WishlistAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClickListener(int position){
-                Plant plant = plants.get(position);
+        if(!plants.isEmpty()) {
 
-                WishlistFragment2 wishlistFragment2 = new WishlistFragment2();
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("Selected", plant);
-                wishlistFragment2.setArguments(bundle);
-
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, wishlistFragment2)
-                        .addToBackStack(null).commit();
+            if(wishlistWelcome.getVisibility() == View.VISIBLE) {
+                wishlistWelcome.setVisibility(View.GONE);
+                wishlistWelcome2.setVisibility(View.GONE);
+                wishlistWelcome3.setVisibility(View.GONE);
             }
-        });
+
+            adWishlist = new WishlistAdapter(getContext(), plants);
+            rvWishlist.setAdapter(adWishlist);
+
+            adWishlist.setOnItemClickListener(new WishlistAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClickListener(int position) {
+                    Plant plant = plants.get(position);
+
+                    WishlistFragment2 wishlistFragment2 = new WishlistFragment2();
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("Selected", plant);
+                    wishlistFragment2.setArguments(bundle);
+
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, wishlistFragment2)
+                            .addToBackStack(null).commit();
+                }
+            });
+        }
+        else {
+            adWishlist = new WishlistAdapter(getContext(), new ArrayList<Plant>());
+            rvWishlist.setAdapter(adWishlist);
+            wishlistWelcome.setVisibility(View.VISIBLE);
+            wishlistWelcome2.setVisibility(View.VISIBLE);
+            wishlistWelcome3.setVisibility(View.VISIBLE);
+        }
 
         return view;
     }

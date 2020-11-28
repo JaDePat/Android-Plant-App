@@ -37,4 +37,9 @@
     <string name="Temperature">Temperature</string>
     <string name="LightRequirement">Light Requirement</string>
     <string name="HumidityRequirement">Humidity Requirement</string>
+    <string name="ShelfWelcome">Welcome to the Shelf!</string>
+    <string name="ThisPageIsForPlantsYouOwn">This page is for plants that you own.</string>
+    <string name="YouCanAddPlantsFromTheSearchTab">You can add plants from the \'search\' tab.</string>
+    <string name="WishlistWelcome">Welcome to the Wishlist!</string>
+    <string name="ThisPageIsForPlantsThatYouWant">This page is for plants that you want.</string>
 </resources>

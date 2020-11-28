@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +29,7 @@ import com.example.plantapp.activities.PlantWizard;
 import com.example.plantapp.objects.Plant;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -114,7 +116,9 @@ public class SearchFragment extends Fragment {
                 bundle.putParcelable("Selected", plant);
                 plantFragment.setArguments(bundle);
 
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, plantFragment)
+                getActivity().getSupportFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out_for_sliding_right, R.anim.fade_in, R.anim.slide_out).
+                        replace(R.id.flContainer, plantFragment)
                         .addToBackStack("fragment_plant").commit();
             }
         });
