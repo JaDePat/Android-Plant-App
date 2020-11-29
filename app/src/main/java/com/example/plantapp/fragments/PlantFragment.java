@@ -2,16 +2,19 @@ package com.example.plantapp.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.plantapp.DataBaseHelper;
 import com.example.plantapp.R;
 import com.example.plantapp.objects.Plant;
 
@@ -73,12 +76,27 @@ public class PlantFragment extends Fragment {
         shelfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShelfFragment shelfFragment = new ShelfFragment();
+                DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext());
+                long newRowID = dataBaseHelper.addToShelf(plant);
+                if(newRowID == -2){
+                    Toast.makeText(getContext(), plant.getName() + " is already in your Shelf",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else if(newRowID == -1) {
+                    Toast.makeText(getContext(), "Error, cannot add to Shelf",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getContext(), plant.getName() + " added to Shelf",
+                            Toast.LENGTH_SHORT).show();
+                }
+                dataBaseHelper.close();
+                /*ShelfFragment shelfFragment = new ShelfFragment();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("Add to shelf", plant);
                 shelfFragment.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, shelfFragment)
-                        .addToBackStack(null).commit();
+                        .addToBackStack(null).commit();*/
             }
         });
 
@@ -86,15 +104,32 @@ public class PlantFragment extends Fragment {
         wishlistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WishlistFragment wishlistFragment = new WishlistFragment();
+                DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext());
+                long newRowID = dataBaseHelper.addToWishList(plant);
+                if(newRowID == -2){
+                    Toast.makeText(getContext(), plant.getName() + " is already in your Wishlist",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else if(newRowID == -1) {
+                    Toast.makeText(getContext(), "Error, cannot add to Wishlist",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getContext(), plant.getName() + " added to Wishlist",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                dataBaseHelper.close();
+                /*WishlistFragment wishlistFragment = new WishlistFragment();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("Add to wishlist", plant);
                 wishlistFragment.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, wishlistFragment)
-                        .addToBackStack(null).commit();
+                        .addToBackStack(null).commit();*/
             }
         });
 
         return v;
-    };
+    }
+
 }

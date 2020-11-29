@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,12 +20,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Toast;
 
 import com.example.plantapp.DataBaseHelper;
 import com.example.plantapp.R;
 import com.example.plantapp.activities.MainActivity;
+import com.example.plantapp.activities.PlantWizard;
 import com.example.plantapp.objects.Plant;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,6 +42,7 @@ public class SearchFragment extends Fragment {
     private PlantAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<Plant> plantList;
+    private FloatingActionButton plantWizardOpener;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -73,7 +79,6 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        getActivity().setTitle("Search");
 
         DataBaseHelper dpHelper = new DataBaseHelper(getActivity());
         dpHelper.initializeDataBase();
@@ -88,6 +93,10 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+
+        getActivity().setTitle("Search");
+
+        plantWizardOpener = view.findViewById(R.id.plantWizardButton);
 
         mRecyclerView = view.findViewById(R.id.searchRecyclerView);
         mRecyclerView.setHasFixedSize(true);
@@ -107,8 +116,17 @@ public class SearchFragment extends Fragment {
                 bundle.putParcelable("Selected", plant);
                 plantFragment.setArguments(bundle);
 
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, plantFragment)
+                getActivity().getSupportFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out_for_sliding_right, R.anim.fade_in, R.anim.slide_out).
+                        replace(R.id.flContainer, plantFragment)
                         .addToBackStack("fragment_plant").commit();
+            }
+        });
+
+        plantWizardOpener.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPlantWizardActivity();
             }
         });
 
@@ -135,4 +153,10 @@ public class SearchFragment extends Fragment {
             }
         });
     }
+
+    public void openPlantWizardActivity() {
+        Intent intent = new Intent(getContext(), PlantWizard.class);
+        startActivity(intent);
+    }
+
 }

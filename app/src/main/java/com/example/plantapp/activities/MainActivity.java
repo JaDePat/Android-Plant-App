@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.plantapp.DataBaseHelper;
 import com.example.plantapp.R;
 import com.example.plantapp.fragments.SearchFragment;
 import com.example.plantapp.fragments.ShelfFragment;
@@ -24,17 +23,19 @@ public class MainActivity extends AppCompatActivity {
 
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        final Fragment shelf = new ShelfFragment();
+        /*final Fragment shelf = new ShelfFragment();
         final Fragment search = new SearchFragment();
-        final Fragment wishlist = new WishlistFragment();
+        final Fragment wishlist = new WishlistFragment();*/
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        final BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
-                switch (item.getItemId()) {
+                int currentlySelected = bottomNavigationView.getSelectedItemId();
+                int newlySelected = item.getItemId();
+                switch (newlySelected) {
                     case R.id.action_search:
                          fragment = new SearchFragment();
                          break;
@@ -46,11 +47,52 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new ShelfFragment();
                         break;
                 }
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+
+                if(currentlySelected != newlySelected) {
+                    if (currentlySelected == R.id.action_shelf && (newlySelected == R.id.action_search ||
+                            newlySelected == R.id.action_wishlist)) {
+
+                        if(fragmentManager.getBackStackEntryCount() != 0) {
+                            fragmentManager.popBackStack();
+                        }
+
+                        fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out_for_sliding_right).
+                                replace(R.id.flContainer, fragment).commit();
+
+                    } else if (currentlySelected == R.id.action_search && newlySelected == R.id.action_shelf) {
+
+                        if(fragmentManager.getBackStackEntryCount() != 0) {
+                            fragmentManager.popBackStack();
+                        }
+
+                        fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.slide_out).
+                                replace(R.id.flContainer, fragment).commit();
+
+                    } else if (currentlySelected == R.id.action_search && newlySelected == R.id.action_wishlist) {
+
+                        if(fragmentManager.getBackStackEntryCount() != 0) {
+                            fragmentManager.popBackStack();
+                        }
+
+                        fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out_for_sliding_right).
+                                replace(R.id.flContainer, fragment).commit();
+
+                    }
+                    else{
+                        if(fragmentManager.getBackStackEntryCount() != 0) {
+                            fragmentManager.popBackStack();
+                        }
+
+                        fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.slide_out).
+                                replace(R.id.flContainer, fragment).commit();
+                    }
+                }
+
                 return true;
             }
         });
         // Set default selection
         bottomNavigationView.setSelectedItemId(R.id.action_shelf);
+        fragmentManager.beginTransaction().replace(R.id.flContainer, new ShelfFragment()).commit();
     }
 }

@@ -3,4 +3,5 @@
     <color name="colorPrimary">#8BC34A</color>
     <color name="colorPrimaryDark">#026505</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="plantWizardBackground">#AAAAAA</color>
 </resources>

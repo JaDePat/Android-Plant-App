@@ -17,19 +17,55 @@
             android:id="@+id/plant_scientific_name_fragment_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
             android:gravity="center"
-            android:paddingBottom="6dp" />
+            android:paddingBottom="6dp"
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="25sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp">
+
+            <Button
+                android:id="@+id/add_shelf_button"
+                android:background="@drawable/button_selector"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="50dp"
+                android:text="Add to Shelf"
+                android:textColor="@color/design_default_color_on_secondary"
+                android:focusable="true" />
+
+            <Button
+                android:id="@+id/add_wishlist_button"
+                android:background="@drawable/button_selector"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="50dp"
+                android:text="Add to Wishlist"
+                android:textColor="@color/design_default_color_on_secondary"
+                android:focusable="true" />
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/light_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
-            android:paddingLeft="10dp"
             android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
             android:text="LIGHT"
-            android:paddingBottom="5dp" />
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="25dp" />
 
         <View
             android:layout_width="match_parent"
@@ -51,11 +87,12 @@
             android:id="@+id/water_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
-            android:paddingLeft="10dp"
             android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
             android:text="WATER"
-            android:paddingBottom="5dp" />
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="25dp" />
 
         <View
             android:layout_width="match_parent"
@@ -77,11 +114,12 @@
             android:id="@+id/fertilizer_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
-            android:paddingLeft="10dp"
             android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
             android:text="FERTILIZER"
-            android:paddingBottom="5dp" />
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="25dp" />
 
         <View
             android:layout_width="match_parent"
@@ -103,11 +141,12 @@
             android:id="@+id/temperature_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
-            android:paddingLeft="10dp"
             android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
             android:text="TEMPERATURE"
-            android:paddingBottom="5dp" />
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="25dp" />
 
         <View
             android:layout_width="match_parent"
@@ -129,11 +168,12 @@
             android:id="@+id/humidity_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
-            android:paddingLeft="10dp"
             android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
             android:text="HUMIDITY"
-            android:paddingBottom="5dp" />
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="25dp" />
 
         <View
             android:layout_width="match_parent"
@@ -155,11 +195,12 @@
             android:id="@+id/flowering_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
-            android:paddingLeft="10dp"
             android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
             android:text="FLOWERING"
-            android:paddingBottom="5dp" />
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="25dp" />
 
         <View
             android:layout_width="match_parent"
@@ -181,11 +222,12 @@
             android:id="@+id/pests_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
-            android:paddingLeft="10dp"
             android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
             android:text="PESTS"
-            android:paddingBottom="5dp" />
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="25dp" />
 
         <View
             android:layout_width="match_parent"
@@ -207,11 +249,12 @@
             android:id="@+id/diseases_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
-            android:paddingLeft="10dp"
             android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
             android:text="DISEASES"
-            android:paddingBottom="5dp" />
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="25dp" />
 
         <View
             android:layout_width="match_parent"
@@ -233,11 +276,12 @@
             android:id="@+id/soil_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
-            android:paddingLeft="10dp"
             android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
             android:text="SOIL"
-            android:paddingBottom="5dp" />
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="25dp" />
 
         <View
             android:layout_width="match_parent"
@@ -259,11 +303,12 @@
             android:id="@+id/pot_size_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
-            android:paddingLeft="10dp"
             android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
             android:text="POT SIZE"
-            android:paddingBottom="5dp" />
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="25dp" />
 
         <View
             android:layout_width="match_parent"
@@ -285,11 +330,12 @@
             android:id="@+id/pruning_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
-            android:paddingLeft="10dp"
             android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
             android:text="PRUNING"
-            android:paddingBottom="5dp" />
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="25dp" />
 
         <View
             android:layout_width="match_parent"
@@ -311,11 +357,12 @@
             android:id="@+id/propagation_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
-            android:paddingLeft="10dp"
             android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
             android:text="PROPAGATION"
-            android:paddingBottom="5dp" />
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="25dp" />
 
         <View
             android:layout_width="match_parent"
@@ -337,11 +384,12 @@
             android:id="@+id/poisonous_info_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
-            android:paddingLeft="10dp"
             android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
             android:text="POISONOUS PLANT INFO"
-            android:paddingBottom="5dp" />
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="25dp" />
 
         <View
             android:layout_width="match_parent"
@@ -359,28 +407,5 @@
             android:paddingRight="5dp"
             android:paddingBottom="10dp"/>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp">
-
-                <Button
-                    android:id="@+id/add_shelf_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="50dp"
-                    android:text="Add to Shelf" />
-
-                <Button
-                    android:id="@+id/add_wishlist_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="50dp"
-                    android:text="Add to Wishlist" />
-
-            </RelativeLayout>
     </LinearLayout>
 </ScrollView>
