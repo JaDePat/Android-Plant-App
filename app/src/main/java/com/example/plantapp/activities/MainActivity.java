@@ -51,16 +51,38 @@ public class MainActivity extends AppCompatActivity {
                 if(currentlySelected != newlySelected) {
                     if (currentlySelected == R.id.action_shelf && (newlySelected == R.id.action_search ||
                             newlySelected == R.id.action_wishlist)) {
+
+                        if(fragmentManager.getBackStackEntryCount() != 0) {
+                            fragmentManager.popBackStack();
+                        }
+
                         fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out_for_sliding_right).
                                 replace(R.id.flContainer, fragment).commit();
+
                     } else if (currentlySelected == R.id.action_search && newlySelected == R.id.action_shelf) {
+
+                        if(fragmentManager.getBackStackEntryCount() != 0) {
+                            fragmentManager.popBackStack();
+                        }
+
                         fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.slide_out).
                                 replace(R.id.flContainer, fragment).commit();
+
                     } else if (currentlySelected == R.id.action_search && newlySelected == R.id.action_wishlist) {
+
+                        if(fragmentManager.getBackStackEntryCount() != 0) {
+                            fragmentManager.popBackStack();
+                        }
+
                         fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out_for_sliding_right).
                                 replace(R.id.flContainer, fragment).commit();
+
                     }
                     else{
+                        if(fragmentManager.getBackStackEntryCount() != 0) {
+                            fragmentManager.popBackStack();
+                        }
+
                         fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.slide_out).
                                 replace(R.id.flContainer, fragment).commit();
                     }

@@ -80,7 +80,9 @@ public class WishlistFragment extends Fragment {
                     bundle.putParcelable("Selected", plant);
                     wishlistFragment2.setArguments(bundle);
 
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, wishlistFragment2)
+                    getActivity().getSupportFragmentManager().beginTransaction().
+                            setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out_for_sliding_right, R.anim.fade_in, R.anim.slide_out).
+                            replace(R.id.flContainer, wishlistFragment2)
                             .addToBackStack(null).commit();
                 }
             });
