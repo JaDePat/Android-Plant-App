@@ -323,7 +323,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public List<Plant> getOwnedPlants()
     {
         List<Plant> ownedPlants = new ArrayList<>();
-        String queryString = "SELECT * FROM  PLANT_TABLE  INNER JOIN  PLANTS_OWNED_TABLE ON  PLANTS_OWNED_TABLE.PLANT_ID  = PLANT_TABLE.ID";
+        String queryString = "SELECT * FROM  PLANT_TABLE  INNER JOIN  PLANTS_OWNED_TABLE ON  PLANTS_OWNED_TABLE.PLANT_ID  = PLANT_TABLE.ID " +
+                "ORDER BY NAME";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(queryString, null);
@@ -361,7 +362,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public List<Plant> getWishlistPlants()
     {
         List<Plant> wishlistPlants = new ArrayList<>();
-        String queryString = "SELECT * FROM  PLANT_TABLE  INNER JOIN  WISHLIST_TABLE ON WISHLIST_TABLE.PLANT_ID  = PLANT_TABLE.ID";
+        String queryString = "SELECT * FROM  PLANT_TABLE  INNER JOIN  WISHLIST_TABLE ON WISHLIST_TABLE.PLANT_ID  = PLANT_TABLE.ID " +
+                "ORDER BY NAME";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(queryString, null);
@@ -408,6 +410,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.endTransaction();
 
         //Toast.makeText(myContext, "ere i am", Toast.LENGTH_SHORT).show();
+    }
+
+    public void deleteFromWishlist(String get_ID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        String deleteString = "DELETE FROM WISHLIST_TABLE WHERE PLANT_ID ='"+get_ID+"'";
+        db.execSQL(deleteString);
+        db.setTransactionSuccessful();
+        db.endTransaction();
     }
 
     public ArrayList<Plant> plantWizard(ArrayList<String> lightSelectedChips,

@@ -42,4 +42,7 @@
     <string name="YouCanAddPlantsFromTheSearchTab">You can add plants from the \'search\' tab.</string>
     <string name="WishlistWelcome">Welcome to the Wishlist!</string>
     <string name="ThisPageIsForPlantsThatYouWant">This page is for plants that you want.</string>
+    <string name="RemoveFromWishlist">Remove from Wishlist</string>
+    <string name="PersonalPlantCareNotes">Your personal plant care notes...</string>
+    <string name="Save">Save</string>
 </resources>

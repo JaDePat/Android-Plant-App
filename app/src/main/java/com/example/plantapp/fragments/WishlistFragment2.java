@@ -28,6 +28,7 @@ public class WishlistFragment2 extends Fragment {
     private WishlistAdapter2 adWishlist2;
     private RecyclerView.LayoutManager lmWishlist2;
     DataBaseHelper dpHelper;
+    private Button removeFromWishlist;
 
     public WishlistFragment2() {
 
@@ -62,21 +63,23 @@ public class WishlistFragment2 extends Fragment {
         rvWishlist2.setLayoutManager(lmWishlist2);
         rvWishlist2.setAdapter(adWishlist2);
 
-        Button removeButton = (Button) v.findViewById(R.id.btRemovePlant);
-        removeButton.setOnClickListener(new View.OnClickListener() {
+        removeFromWishlist = v.findViewById(R.id.removeFromWishlist);
+        removeFromWishlist.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                ShelfFragment shelfFragment = new ShelfFragment();
-                dpHelper.deleteFromShelf(String.valueOf(plant.getID()));
-                Toast.makeText(getContext(), "Removed from shelf!", Toast.LENGTH_SHORT).show();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, shelfFragment)
-                        .addToBackStack(null).commit();
+            public void onClick(View v) {
+                WishlistFragment wishlistFragment = new WishlistFragment();
+                dpHelper.deleteFromWishlist(String.valueOf(plant.getID()));
+                Toast.makeText(getContext(), "Removed from wishlist!", Toast.LENGTH_SHORT).show();
+                getActivity().getSupportFragmentManager().popBackStack();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in, R.anim.slide_out)
+                        .replace(R.id.flContainer, wishlistFragment)
+                        .commit();
             }
         });
 
-
         return v;
-    };
+    }
 
     public void setArguments(Context context, Bundle bundle) {
     }
