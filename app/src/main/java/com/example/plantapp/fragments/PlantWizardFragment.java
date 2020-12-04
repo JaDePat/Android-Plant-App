@@ -25,6 +25,11 @@ import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 
+//  uses the SearchAdapter class to bind the data and populate the RecyclerView with plants from the
+//  PLANT_TABLE database that fit the criteria selected by the user (criteria are selected by
+//  checking/unchecking the chips in the fragment as well as specifying a minimum/maximum temp
+//  using the spinners). Plants matching the criteria are revealed by pressing the “Show Me The
+//  Plants!” button.
 public class PlantWizardFragment extends Fragment {
 
     // initial declarations

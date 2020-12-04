@@ -11,7 +11,7 @@ import com.example.plantapp.fragments.PlantWizardFragment;
 
 import java.util.List;
 
-public class PlantWizard extends AppCompatActivity {
+public class PlantWizardActivity extends AppCompatActivity {
     private Fragment plantWizard;
 
     @Override

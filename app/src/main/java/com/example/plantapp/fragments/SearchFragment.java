@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 
 import com.example.plantapp.DataBaseHelper;
 import com.example.plantapp.R;
-import com.example.plantapp.activities.PlantWizard;
+import com.example.plantapp.activities.PlantWizardActivity;
 import com.example.plantapp.objects.Plant;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -116,7 +116,7 @@ public class SearchFragment extends Fragment {
     }
 
     public void openPlantWizardActivity() {
-        Intent intent = new Intent(getContext(), PlantWizard.class);
+        Intent intent = new Intent(getContext(), PlantWizardActivity.class);
         startActivity(intent);
     }
 
