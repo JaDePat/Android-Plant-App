@@ -24,13 +24,14 @@ import com.example.plantapp.objects.Plant;
 
 import java.util.ArrayList;
 import java.util.List;
-// Displays a list of the plants that the user owns
+// WishlistFragment uses the WishlistAdapter class to bind the adapter to the data and populate the
+// RecyclerView with plants from the WISHLIST_TABLE in the database.
 public class WishlistFragment extends Fragment {
     private RecyclerView rvWishlist;
     private WishlistAdapter adWishlist;
     private RecyclerView.LayoutManager lmWishlist;
     private List<Plant> plants;
-    private TextView wishlistWelcome, wishlistWelcome2, wishlistWelcome3;
+    private TextView tvWishlistWelcome, tvWishlistWelcome2, tvWishlistWelcome3;
 
     public WishlistFragment() {
         // Required empty public constructor
@@ -39,9 +40,9 @@ public class WishlistFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DataBaseHelper dpHelper = new DataBaseHelper(getActivity());
-        dpHelper.initializeDataBase();
-        plants = dpHelper.getWishlistPlants();
+        DataBaseHelper dbHelper = new DataBaseHelper(getActivity());
+        dbHelper.initializeDataBase();
+        plants = dbHelper.getWishlistPlants();
     }
 
     @Override
@@ -50,21 +51,21 @@ public class WishlistFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_wishlist, container, false);
         getActivity().setTitle("Wishlist");
 
-        wishlistWelcome = view.findViewById(R.id.wishlistWelcome);
-        wishlistWelcome2 = view.findViewById(R.id.wishlistWelcome2);
-        wishlistWelcome3 = view.findViewById(R.id.wishlistWelcome3);
+        tvWishlistWelcome = view.findViewById(R.id.tv_wishlist_welcome);
+        tvWishlistWelcome2 = view.findViewById(R.id.tv_wishlist_welcome2);
+        tvWishlistWelcome3 = view.findViewById(R.id.tv_wishlist_welcome3);
 
-        rvWishlist = view.findViewById(R.id.rvWishlist);
+        rvWishlist = view.findViewById(R.id.rv_wishlist);
         rvWishlist.setHasFixedSize(true);
         lmWishlist = new GridLayoutManager(view.getContext(), 2);
         rvWishlist.setLayoutManager(lmWishlist);
 
         if(!plants.isEmpty()) {
 
-            if(wishlistWelcome.getVisibility() == View.VISIBLE) {
-                wishlistWelcome.setVisibility(View.GONE);
-                wishlistWelcome2.setVisibility(View.GONE);
-                wishlistWelcome3.setVisibility(View.GONE);
+            if(tvWishlistWelcome.getVisibility() == View.VISIBLE) {
+                tvWishlistWelcome.setVisibility(View.GONE);
+                tvWishlistWelcome2.setVisibility(View.GONE);
+                tvWishlistWelcome3.setVisibility(View.GONE);
             }
 
             adWishlist = new WishlistAdapter(getContext(), plants);
@@ -82,7 +83,7 @@ public class WishlistFragment extends Fragment {
 
                     getActivity().getSupportFragmentManager().beginTransaction().
                             setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out_for_sliding_right, R.anim.fade_in, R.anim.slide_out).
-                            replace(R.id.flContainer, wishlistFragment2)
+                            replace(R.id.fl_fragment_container, wishlistFragment2)
                             .addToBackStack(null).commit();
                 }
             });
@@ -90,9 +91,9 @@ public class WishlistFragment extends Fragment {
         else {
             adWishlist = new WishlistAdapter(getContext(), new ArrayList<Plant>());
             rvWishlist.setAdapter(adWishlist);
-            wishlistWelcome.setVisibility(View.VISIBLE);
-            wishlistWelcome2.setVisibility(View.VISIBLE);
-            wishlistWelcome3.setVisibility(View.VISIBLE);
+            tvWishlistWelcome.setVisibility(View.VISIBLE);
+            tvWishlistWelcome2.setVisibility(View.VISIBLE);
+            tvWishlistWelcome3.setVisibility(View.VISIBLE);
         }
 
         return view;

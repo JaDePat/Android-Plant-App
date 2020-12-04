@@ -2,16 +2,12 @@ package com.example.plantapp.fragments;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,24 +20,18 @@ import android.widget.Toast;
 
 import com.example.plantapp.DataBaseHelper;
 import com.example.plantapp.R;
-import com.example.plantapp.activities.PlantWizard;
 import com.example.plantapp.objects.Plant;
 import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PlantWizardFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class PlantWizardFragment extends Fragment {
 
     // initial declarations
     private DataBaseHelper dataBaseHelper;
-    private PlantAdapter mAdapter;
-    private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private SearchAdapter adSearch;
+    private RecyclerView rvSearch;
+    private RecyclerView.LayoutManager lmSearch;
     // chips for the light filter
     private Chip chipBright, chipMedium, chipLow, chipDirect, chipIndirect;
     // chips for the humidity filter
@@ -49,7 +39,7 @@ public class PlantWizardFragment extends Fragment {
     // chips for the poison filter
     private Chip chipPoisonous, chipNonPoisonous;
     // button to display the plants
-    private Button showMeThePlants;
+    private Button btShowMeThePlants;
     // array to hold 'light' filter values
     private ArrayList<String> lightSelectedChipData;
     // array to hold 'humidity' filter values
@@ -57,7 +47,7 @@ public class PlantWizardFragment extends Fragment {
     // array to hold 'poison' filter values
     private ArrayList<String> poisonSelectedChipData;
     // text view to display how many plants were returned
-    private TextView numberOfResults;
+    private TextView tvNumberOfResults;
     // spinners for the temperature range
     private Spinner minTemp, maxTemp;
     // array for the spinners values
@@ -65,50 +55,14 @@ public class PlantWizardFragment extends Fragment {
 
     private int visibilityOfPlantWizard, visibilityOfCollapsedPlantWizard, visibilityOfPlantList;
 
-    private Button showPlantWizard;
+    private Button btShowPlantWizard;
 
-    private CardView cv_plantWizardContainer, plantWizardCollapsed;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private CardView cvPlantWizardContainer, cvPlantWizardCollapsed;
 
     public PlantWizardFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PlantWizardFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static PlantWizardFragment newInstance(String param1, String param2) {
-        PlantWizardFragment fragment = new PlantWizardFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -118,32 +72,32 @@ public class PlantWizardFragment extends Fragment {
 
         getActivity().setTitle("Plant Wizard");
 
-        cv_plantWizardContainer = view.findViewById(R.id.cv_plantWizardContainer);
-        plantWizardCollapsed = view.findViewById(R.id.plantWizardCollapsed);
-        showPlantWizard = view.findViewById(R.id.showPlantWizard);
+        cvPlantWizardContainer = view.findViewById(R.id.cv_plant_wizard_container);
+        cvPlantWizardCollapsed = view.findViewById(R.id.cv_plant_wizard_collapsed);
+        btShowPlantWizard = view.findViewById(R.id.bt_show_plant_wizard);
 
         // Light filter chips
-        chipBright = view.findViewById(R.id.brightFilterChip);
-        chipMedium = view.findViewById(R.id.mediumFilterChip);
-        chipLow = view.findViewById(R.id.lowFilterChip);
-        chipDirect = view.findViewById(R.id.directFilterChip);
-        chipIndirect = view.findViewById(R.id.indirectFilterChip);
+        chipBright = view.findViewById(R.id.bright_filter_chip);
+        chipMedium = view.findViewById(R.id.medium_filter_chip);
+        chipLow = view.findViewById(R.id.low_filter_chip);
+        chipDirect = view.findViewById(R.id.direct_filter_chip);
+        chipIndirect = view.findViewById(R.id.indirect_filter_chip);
 
         // Humidity filter chips
-        chipHumidityVeryHigh = view.findViewById(R.id.veryHighHumidityFilterChip);
-        chipHumidityHigh = view.findViewById(R.id.highHumidityFilterChip);
-        chipHumidityModerate = view.findViewById(R.id.moderateHumidityFilterChip);
-        chipHumidityLow = view.findViewById(R.id.lowHumidityFilterChip);
+        chipHumidityVeryHigh = view.findViewById(R.id.very_high_humidity_filter_chip);
+        chipHumidityHigh = view.findViewById(R.id.high_humidity_filter_chip);
+        chipHumidityModerate = view.findViewById(R.id.moderate_humidity_filter_chip);
+        chipHumidityLow = view.findViewById(R.id.low_humidity_filter_chip);
 
         // Poison filter chips
-        chipPoisonous = view.findViewById(R.id.poisonousFilterChip);
-        chipNonPoisonous = view.findViewById(R.id.nonPoisonousFilterChip);
+        chipPoisonous = view.findViewById(R.id.poisonous_filter_chip);
+        chipNonPoisonous = view.findViewById(R.id.non_poisonous_filter_chip);
 
         // TextView for the number of results
-        numberOfResults = view.findViewById(R.id.numberOfResults);
+        tvNumberOfResults = view.findViewById(R.id.tv_number_of_results);
 
         // Spinner for the minimum temperature value
-        minTemp = view.findViewById(R.id.spinner_minimumTemp);
+        minTemp = view.findViewById(R.id.min_temp_spinner);
         ArrayAdapter<CharSequence> tempArrayAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.temperatureRangeArray, android.R.layout.simple_spinner_item);
         tempArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -151,12 +105,12 @@ public class PlantWizardFragment extends Fragment {
         minTemp.setSelection(0);
 
         // Spinner for the maximum temperature value
-        maxTemp = view.findViewById(R.id.spinner_maximumTemp);
+        maxTemp = view.findViewById(R.id.max_temp_spinner);
         maxTemp.setAdapter(tempArrayAdapter);
         maxTemp.setSelection(40);
 
         // The button that sets the filter
-        showMeThePlants = view.findViewById(R.id.showMeThePlants);
+        btShowMeThePlants = view.findViewById(R.id.bt_show_me_the_plants);
 
         // Initialize light chip array list
         lightSelectedChipData = new ArrayList<>();
@@ -227,16 +181,16 @@ public class PlantWizardFragment extends Fragment {
         chipNonPoisonous.setOnCheckedChangeListener(poisonCheckedChangeListener);
 
         // Get the recycler view and set an empty adapter
-        mRecyclerView = view.findViewById(R.id.rc_plantsList);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(view.getContext());
-        mAdapter = new PlantAdapter(new ArrayList<Plant>());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+        rvSearch = view.findViewById(R.id.rv_plants_list);
+        rvSearch.setHasFixedSize(true);
+        lmSearch = new LinearLayoutManager(view.getContext());
+        adSearch = new SearchAdapter(new ArrayList<Plant>());
+        rvSearch.setLayoutManager(lmSearch);
+        rvSearch.setAdapter(adSearch);
 
         // Get the button and set an on click listener to call the plant wizard function
-        showMeThePlants = view.findViewById(R.id.showMeThePlants);
-        showMeThePlants.setOnClickListener(new View.OnClickListener() {
+        btShowMeThePlants = view.findViewById(R.id.bt_show_me_the_plants);
+        btShowMeThePlants.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Get database helper, perform light filter function, and display results
@@ -252,32 +206,31 @@ public class PlantWizardFragment extends Fragment {
                     final ArrayList<Plant> results = dataBaseHelper.plantWizard(lightSelectedChipData,
                             humiditySelectedChipData, poisonSelectedChipData, minimumTemperature,
                             maximumTemperature);
-                    mAdapter = new PlantAdapter(results);
-                    mRecyclerView.setLayoutManager(mLayoutManager);
-                    mRecyclerView.setAdapter(mAdapter);
-                    mRecyclerView.setBackgroundColor(getResources().getColor(R.color.plantWizardBackground));
+                    adSearch = new SearchAdapter(results);
+                    rvSearch.setLayoutManager(lmSearch);
+                    rvSearch.setAdapter(adSearch);
+                    rvSearch.setBackgroundColor(getResources().getColor(R.color.plantWizardBackground));
 
                     String numResults = results.size() + " results";
-                    numberOfResults.setText(numResults);
+                    tvNumberOfResults.setText(numResults);
                     dataBaseHelper.close();
-                    cv_plantWizardContainer.setVisibility(View.GONE);
-                    plantWizardCollapsed.setVisibility(View.VISIBLE);
+                    cvPlantWizardContainer.setVisibility(View.GONE);
+                    cvPlantWizardCollapsed.setVisibility(View.VISIBLE);
 
-                    mAdapter.setOnItemClickListener(new PlantAdapter.OnItemClickListener() {
+                    adSearch.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClickListener(int position) {
                             Plant plant = results.get(position);
 
-                            PlantFragment plantFragment = new PlantFragment();
+                            SearchFragment2 searchFragment2 = new SearchFragment2();
                             Bundle bundle = new Bundle();
                             bundle.putParcelable("Selected", plant);
-                            plantFragment.setArguments(bundle);
+                            searchFragment2.setArguments(bundle);
 
                             FragmentTransaction fragTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                             fragTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out_for_sliding_right);
-                            fragTransaction.add(R.id.fl_plantWizardContainer, plantFragment);
-                            fragTransaction.hide(PlantWizardFragment.this).show(plantFragment).commit();
-                            //getActivity().getSupportFragmentManager().beginTransaction().show(plantFragment).commit();
+                            fragTransaction.add(R.id.fl_plant_wizard_container, searchFragment2);
+                            fragTransaction.hide(PlantWizardFragment.this).show(searchFragment2).commit();
 
                         }
                     });
@@ -285,17 +238,17 @@ public class PlantWizardFragment extends Fragment {
             }
         });
 
-        showPlantWizard.setOnClickListener(new View.OnClickListener() {
+        btShowPlantWizard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                plantWizardCollapsed.setVisibility(View.INVISIBLE);
-                cv_plantWizardContainer.setVisibility(View.VISIBLE);
+                cvPlantWizardCollapsed.setVisibility(View.INVISIBLE);
+                cvPlantWizardContainer.setVisibility(View.VISIBLE);
             }
         });
 
         return view;
     }
 
-    
+
 
 }

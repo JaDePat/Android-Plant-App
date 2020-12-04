@@ -1,7 +1,6 @@
 package com.example.plantapp.fragments;
 
 
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +9,6 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.plantapp.R;
@@ -22,9 +17,12 @@ import com.example.plantapp.objects.Plant;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHolder> implements Filterable {
-    private List<Plant> mPlantList;
-    private List<Plant> mPlantListFull;
+// The SearchAdapter  converts a plant object into a list row item to be inserted into the
+// RecyclerView contained in the SearchFragment class.
+
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> implements Filterable {
+    private List<Plant> PlantList;
+    private List<Plant> PlantListFull;
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
@@ -35,15 +33,15 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
         mListener = listener;
     }
 
-    public static class PlantViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextView1;
-        public TextView mTextView2;
+    public static class SearchViewHolder extends RecyclerView.ViewHolder {
+        public TextView tvName;
+        public TextView tvScientificName;
 
-        public PlantViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        public SearchViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
 
-            mTextView1 = itemView.findViewById(R.id.textView);
-            mTextView2 = itemView.findViewById(R.id.textView2);
+            tvName = itemView.findViewById(R.id.tv_plant_name);
+            tvScientificName = itemView.findViewById(R.id.tv_plant_scientific_name);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -59,31 +57,31 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
         }
     }
 
-    public PlantAdapter(List<Plant> plantList) {
-        mPlantList = plantList;
-        mPlantListFull = new ArrayList<>(plantList);
+    public SearchAdapter(List<Plant> plantList) {
+        PlantList = plantList;
+        PlantListFull = new ArrayList<>(plantList);
     }
 
     @NonNull
     @Override
-    public PlantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.plant_item,
+    public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_plant_search_adapter,
                 parent, false);
-        PlantViewHolder pvh = new PlantViewHolder(v, mListener);
-        return pvh;
+        SearchViewHolder svh = new SearchViewHolder(v, mListener);
+        return svh;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PlantViewHolder holder, int position) {
-        Plant currentPlant = mPlantList.get(position);
+    public void onBindViewHolder(@NonNull SearchViewHolder holder, int position) {
+        Plant currentPlant = PlantList.get(position);
 
-        holder.mTextView1.setText(currentPlant.getName());
-        holder.mTextView2.setText(currentPlant.getScientific_Name());
+        holder.tvName.setText(currentPlant.getName());
+        holder.tvScientificName.setText(currentPlant.getScientific_Name());
     }
 
     @Override
     public int getItemCount() {
-        return mPlantList.size();
+        return PlantList.size();
     }
 
     @Override
@@ -97,12 +95,12 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
             List<Plant> filteredList = new ArrayList<>();
 
             if(constraint == null || constraint.length() == 0) {
-                filteredList.addAll(mPlantListFull);
+                filteredList.addAll(PlantListFull);
             }
             else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for(Plant item : mPlantListFull) {
+                for(Plant item : PlantListFull) {
                     if(item.getName().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
@@ -117,8 +115,8 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            mPlantList.clear();
-            mPlantList.addAll((ArrayList)results.values);
+            PlantList.clear();
+            PlantList.addAll((ArrayList)results.values);
             notifyDataSetChanged();
         }
     };

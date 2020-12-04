@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out_for_sliding_right).
-                                replace(R.id.flContainer, fragment).commit();
+                                replace(R.id.fl_fragment_container, fragment).commit();
 
                     } else if (currentlySelected == R.id.action_search && newlySelected == R.id.action_shelf) {
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.slide_out).
-                                replace(R.id.flContainer, fragment).commit();
+                                replace(R.id.fl_fragment_container, fragment).commit();
 
                     } else if (currentlySelected == R.id.action_search && newlySelected == R.id.action_wishlist) {
 
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out_for_sliding_right).
-                                replace(R.id.flContainer, fragment).commit();
+                                replace(R.id.fl_fragment_container, fragment).commit();
 
                     }
                     else{
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.slide_out).
-                                replace(R.id.flContainer, fragment).commit();
+                                replace(R.id.fl_fragment_container, fragment).commit();
                     }
                 }
 
@@ -93,6 +93,6 @@ public class MainActivity extends AppCompatActivity {
         });
         // Set default selection
         bottomNavigationView.setSelectedItemId(R.id.action_shelf);
-        fragmentManager.beginTransaction().replace(R.id.flContainer, new ShelfFragment()).commit();
+        fragmentManager.beginTransaction().replace(R.id.fl_fragment_container, new ShelfFragment()).commit();
     }
 }

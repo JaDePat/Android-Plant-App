@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/wishlistWelcome3"
+            android:id="@+id/tv_wishlist_welcome3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -22,10 +22,10 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/wishlistWelcome2" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_wishlist_welcome2" />
 
         <TextView
-            android:id="@+id/wishlistWelcome2"
+            android:id="@+id/tv_wishlist_welcome2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -37,10 +37,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/wishlistWelcome" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_wishlist_welcome" />
 
         <TextView
-            android:id="@+id/wishlistWelcome"
+            android:id="@+id/tv_wishlist_welcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -55,7 +55,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvWishlist"
+        android:id="@+id/rv_wishlist"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>

@@ -56,6 +56,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PLANT_PRUNING = "PRUNING";
     public static final String COLUMN_PLANT_PROPAGATION = "PROPAGATION";
     public static final String COLUMN_PLANT_POISON = "POISONOUS_PLANT_INFO";
+    public static final String COLUMN_PLANT_PHOTO = "PHOTO";
 
     // USER_TABLE - keeping this table in case we want to provide a more "personalized"
     //              experience by using the user's name
@@ -1230,6 +1231,27 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return newRowId;
+    }
+
+    public int addPhoto(String phName, Integer aid, String pCat, Bitmap bitmap){
+
+        // convert the bitmap to byte array
+        ByteArrayOutputStream stream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,10,stream);
+
+        byte imageInBye[] = stream.toByteArray();
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PLANT_PHOTO,imageInBye);
+
+        long id=db.insert(PLANT_TABLE,null, values);
+
+        return (int)id;
+
+
+
     }
 
 }

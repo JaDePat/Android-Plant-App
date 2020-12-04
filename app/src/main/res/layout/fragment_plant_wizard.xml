@@ -2,14 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fl_plantWizardContainer"
+    android:id="@+id/fl_plant_wizard_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.PlantWizardFragment"
     android:animateLayoutChanges="true" >
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rc_plantsList"
+        android:id="@+id/rv_plants_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="4dp"
@@ -18,10 +18,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/numberOfResults" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_number_of_results" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cv_plantWizardContainer"
+        android:id="@+id/cv_plant_wizard_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,34 +29,34 @@
         app:layout_constraintTop_toTopOf="parent" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/plantWizardConstraintLayout"
+            android:id="@+id/cl_plant_wizard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/plant_wizard_border"
             android:animateLayoutChanges="true" >
 
             <TextView
-                android:id="@+id/maximumTemperatureLabel"
+                android:id="@+id/tv_max_temp_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/MaxLabel"
                 android:textColor="@color/design_default_color_on_secondary"
-                app:layout_constraintBottom_toTopOf="@+id/showMeThePlants"
-                app:layout_constraintEnd_toStartOf="@+id/spinner_maximumTemp"
+                app:layout_constraintBottom_toTopOf="@+id/bt_show_me_the_plants"
+                app:layout_constraintEnd_toStartOf="@+id/max_temp_spinner"
                 app:layout_constraintTop_toBottomOf="@+id/tv_temperature" />
 
             <TextView
-                android:id="@+id/minimumTemperatureLabel"
+                android:id="@+id/tv_min_temp_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/MinLabel"
                 android:textColor="@color/design_default_color_on_secondary"
-                app:layout_constraintBottom_toTopOf="@+id/showMeThePlants"
-                app:layout_constraintEnd_toStartOf="@+id/spinner_minimumTemp"
+                app:layout_constraintBottom_toTopOf="@+id/bt_show_me_the_plants"
+                app:layout_constraintEnd_toStartOf="@+id/min_temp_spinner"
                 app:layout_constraintTop_toBottomOf="@+id/tv_temperature" />
 
             <TextView
-                android:id="@+id/chooseCharacteristics"
+                android:id="@+id/tv_choose_characteristics"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -69,7 +69,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/lightFilter"
+                android:id="@+id/light_filter_chip_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
@@ -79,35 +79,35 @@
                 app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/brightFilterChip"
+                    android:id="@+id/bright_filter_chip"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/bright" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/mediumFilterChip"
+                    android:id="@+id/medium_filter_chip"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/Medium" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/lowFilterChip"
+                    android:id="@+id/low_filter_chip"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/Low" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/directFilterChip"
+                    android:id="@+id/direct_filter_chip"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/Direct" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/indirectFilterChip"
+                    android:id="@+id/indirect_filter_chip"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -125,20 +125,20 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chooseCharacteristics" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_choose_characteristics" />
 
             <Button
-                android:id="@+id/showMeThePlants"
+                android:id="@+id/bt_show_me_the_plants"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:backgroundTint="@color/colorPrimary"
-                android:text="@string/ShowMeThePlants"
+                android:text="Show Me The Plants!"
                 android:textColor="@color/design_default_color_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_minimumTemp" />
+                app:layout_constraintTop_toBottomOf="@+id/min_temp_spinner" />
 
             <TextView
                 android:id="@+id/tv_humidity"
@@ -151,10 +151,10 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lightFilter" />
+                app:layout_constraintTop_toBottomOf="@+id/light_filter_chip_group" />
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/humidityFilter"
+                android:id="@+id/humidity_filter_chip_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
@@ -164,28 +164,28 @@
                 app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/veryHighHumidityFilterChip"
+                    android:id="@+id/very_high_humidity_filter_chip"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/VeryHigh" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/highHumidityFilterChip"
+                    android:id="@+id/high_humidity_filter_chip"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/High" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/moderateHumidityFilterChip"
+                    android:id="@+id/moderate_humidity_filter_chip"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/Moderate" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/lowHumidityFilterChip"
+                    android:id="@+id/low_humidity_filter_chip"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -193,7 +193,7 @@
             </com.google.android.material.chip.ChipGroup>
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/poisonFilter"
+                android:id="@+id/poison_filter_chip_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
@@ -203,14 +203,14 @@
                 app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/poisonousFilterChip"
+                    android:id="@+id/poisonous_filter_chip"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/Poisonous" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/nonPoisonousFilterChip"
+                    android:id="@+id/non_poisonous_filter_chip"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -228,7 +228,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/humidityFilter" />
+                app:layout_constraintTop_toBottomOf="@+id/humidity_filter_chip_group" />
 
             <TextView
                 android:id="@+id/tv_temperature"
@@ -241,51 +241,51 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/poisonFilter" />
+                app:layout_constraintTop_toBottomOf="@+id/poison_filter_chip_group" />
 
             <Spinner
-                android:id="@+id/spinner_minimumTemp"
+                android:id="@+id/min_temp_spinner"
                 android:layout_width="83dp"
                 android:layout_height="44dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/spinner_maximumTemp"
+                app:layout_constraintEnd_toStartOf="@+id/max_temp_spinner"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_temperature" />
 
             <Spinner
-                android:id="@+id/spinner_maximumTemp"
+                android:id="@+id/max_temp_spinner"
                 android:layout_width="83dp"
                 android:layout_height="44dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/spinner_minimumTemp"
+                app:layout_constraintStart_toEndOf="@+id/min_temp_spinner"
                 app:layout_constraintTop_toBottomOf="@+id/tv_temperature" />
 
             <TextView
-                android:id="@+id/minTempFahrenheit"
+                android:id="@+id/tv_min_temp_fahrenheit"
                 android:layout_width="23dp"
                 android:layout_height="22dp"
                 android:text="@string/degreesFahrenheit"
                 android:textColor="@color/design_default_color_on_secondary"
-                app:layout_constraintBottom_toTopOf="@+id/showMeThePlants"
-                app:layout_constraintStart_toEndOf="@+id/spinner_minimumTemp"
+                app:layout_constraintBottom_toTopOf="@+id/bt_show_me_the_plants"
+                app:layout_constraintStart_toEndOf="@+id/min_temp_spinner"
                 app:layout_constraintTop_toBottomOf="@+id/tv_temperature" />
 
             <TextView
-                android:id="@+id/maxTempFahrenheit"
+                android:id="@+id/tv_max_temp_fahrenheit"
                 android:layout_width="23dp"
                 android:layout_height="22dp"
                 android:text="@string/degreesFahrenheit"
                 android:textColor="@color/design_default_color_on_secondary"
-                app:layout_constraintBottom_toTopOf="@+id/showMeThePlants"
-                app:layout_constraintStart_toEndOf="@+id/spinner_maximumTemp"
+                app:layout_constraintBottom_toTopOf="@+id/bt_show_me_the_plants"
+                app:layout_constraintStart_toEndOf="@+id/max_temp_spinner"
                 app:layout_constraintTop_toBottomOf="@+id/tv_temperature" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/plantWizardCollapsed"
+        android:id="@+id/cv_plant_wizard_collapsed"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_marginTop="8dp"
@@ -305,7 +305,7 @@
             android:animateLayoutChanges="true" >
 
             <TextView
-                android:id="@+id/tv_plantWizard"
+                android:id="@+id/tv_plant_wizard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/PlantWizard"
@@ -317,7 +317,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/showPlantWizard"
+                android:id="@+id/bt_show_plant_wizard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Reopen"
@@ -331,12 +331,12 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/numberOfResults"
+        android:id="@+id/tv_number_of_results"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/plantWizardCollapsed" />
+        app:layout_constraintTop_toBottomOf="@+id/cv_plant_wizard_collapsed" />
 </androidx.constraintlayout.widget.ConstraintLayout>

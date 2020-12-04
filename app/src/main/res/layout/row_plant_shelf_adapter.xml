@@ -6,7 +6,7 @@
     android:padding="5dp">
 
     <ImageView
-        android:id="@+id/ivPlantImage"
+        android:id="@+id/iv_plant_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -17,21 +17,21 @@
         tools:srcCompat="@drawable/ic_sample_plant" />
 
     <TextView
-        android:id="@+id/tvPlantName"
+        android:id="@+id/tv_plant_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ivPlantImage"
+        android:layout_alignTop="@+id/iv_plant_image"
         android:layout_marginStart="8dp"
-        android:layout_toEndOf="@+id/ivPlantImage"
+        android:layout_toEndOf="@+id/iv_plant_image"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tvScientificName"
+        android:id="@+id/tv_plant_scientific_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvPlantName"
-        android:layout_below="@+id/tvPlantName"
+        android:layout_alignStart="@+id/tv_plant_name"
+        android:layout_below="@+id/tv_plant_name"
         android:layout_marginTop="5dp"
         android:textSize="14sp" />
 

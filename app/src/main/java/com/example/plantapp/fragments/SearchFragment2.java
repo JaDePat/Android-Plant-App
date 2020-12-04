@@ -1,8 +1,6 @@
 package com.example.plantapp.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +16,20 @@ import com.example.plantapp.DataBaseHelper;
 import com.example.plantapp.R;
 import com.example.plantapp.objects.Plant;
 
-public class PlantFragment extends Fragment {
+// SearchFragment2 is accessed by clicking on a row in the ShelfFragment. It displays a photo of
+// the plant that was clicked along with information about it.
+
+// It uses the ShelfAdapter class to bind the adapter to the data and populate the RecyclerView
+// with expandable cardviews.
+// Clicking on a cardview (e.g. Light) displays the text for that characteristic for the given plant
+// (e.g. Areca palms require bright indirect light.)
+
+// There are also “Remove from Shelf” and “Plant Doctor” buttons.
+
+public class SearchFragment2 extends Fragment {
     private Plant plant;
 
-    public PlantFragment() {
+    public SearchFragment2() {
 
     }
 
@@ -34,23 +42,23 @@ public class PlantFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_plant, container, false);
+        View v = inflater.inflate(R.layout.fragment_search2, container, false);
 
         // Connecting the TextView
-        TextView textView = v.findViewById(R.id.plant_scientific_name_fragment_text);
-        TextView textView1 = v.findViewById(R.id.plant_light_text);
-        TextView textView2 = v.findViewById(R.id.plant_water_text);
-        TextView textView3 = v.findViewById(R.id.plant_fertilizer_text);
-        TextView textView4 = v.findViewById(R.id.plant_temperature_text);
-        TextView textView5 = v.findViewById(R.id.plant_humidity_text);
-        TextView textView6 = v.findViewById(R.id.plant_flowering_text);
-        TextView textView7 = v.findViewById(R.id.plant_pests_text);
-        TextView textView8 = v.findViewById(R.id.plant_diseases_text);
-        TextView textView9 = v.findViewById(R.id.plant_soil_text);
-        TextView textView10 = v.findViewById(R.id.plant_pot_size_text);
-        TextView textView11 = v.findViewById(R.id.plant_pruning_text);
-        TextView textView12 = v.findViewById(R.id.plant_propagation_text);
-        TextView textView13 = v.findViewById(R.id.plant_poisonous_plant_info_text);
+        TextView textView = v.findViewById(R.id.tv_plant_scientific_name);
+        TextView textView1 = v.findViewById(R.id.tv_plant_light_text);
+        TextView textView2 = v.findViewById(R.id.tv_plant_water_text);
+        TextView textView3 = v.findViewById(R.id.tv_plant_fertilizer_text);
+        TextView textView4 = v.findViewById(R.id.tv_plant_temperature_text);
+        TextView textView5 = v.findViewById(R.id.tv_plant_humidity_text);
+        TextView textView6 = v.findViewById(R.id.tv_plant_flowering_text);
+        TextView textView7 = v.findViewById(R.id.tv_plant_pests_text);
+        TextView textView8 = v.findViewById(R.id.tv_plant_diseases_text);
+        TextView textView9 = v.findViewById(R.id.tv_plant_soil_text);
+        TextView textView10 = v.findViewById(R.id.tv_plant_pot_size_text);
+        TextView textView11 = v.findViewById(R.id.tv_plant_pruning_text);
+        TextView textView12 = v.findViewById(R.id.tv_plant_propagation_text);
+        TextView textView13 = v.findViewById(R.id.tv_plant_poisonous_plant_info_text);
 
         // Grab the information that was passed
         Bundle bundle = getArguments();
@@ -72,7 +80,7 @@ public class PlantFragment extends Fragment {
         textView12.setText(plant.getPropagation());
         textView13.setText(plant.getPoisonous_plant_info());
 
-        final Button shelfButton = (Button) v.findViewById(R.id.add_shelf_button);
+        final Button shelfButton = (Button) v.findViewById(R.id.bt_add_shelf);
         shelfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,16 +99,10 @@ public class PlantFragment extends Fragment {
                             Toast.LENGTH_SHORT).show();
                 }
                 dataBaseHelper.close();
-                /*ShelfFragment shelfFragment = new ShelfFragment();
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("Add to shelf", plant);
-                shelfFragment.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, shelfFragment)
-                        .addToBackStack(null).commit();*/
             }
         });
 
-        Button wishlistButton = (Button) v.findViewById(R.id.add_wishlist_button);
+        Button wishlistButton = (Button) v.findViewById(R.id.bt_add_wishlist);
         wishlistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,12 +122,6 @@ public class PlantFragment extends Fragment {
                 }
 
                 dataBaseHelper.close();
-                /*WishlistFragment wishlistFragment = new WishlistFragment();
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("Add to wishlist", plant);
-                wishlistFragment.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, wishlistFragment)
-                        .addToBackStack(null).commit();*/
             }
         });
 

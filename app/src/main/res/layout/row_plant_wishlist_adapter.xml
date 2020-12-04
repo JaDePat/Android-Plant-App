@@ -8,14 +8,14 @@
 
 
     <ImageView
-        android:id="@+id/ivPlantW"
+        android:id="@+id/iv_plant_image"
         android:layout_width="match_parent"
         android:layout_height="200sp"
         android:gravity="center"
         android:src="@drawable/ic_sample_plant" />
 
     <TextView
-        android:id="@+id/tvNameW"
+        android:id="@+id/tv_plant_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -23,7 +23,7 @@
         tools:text="Plant Name" />
 
     <TextView
-        android:id="@+id/tvSNameW"
+        android:id="@+id/tv_plant_scientific_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"

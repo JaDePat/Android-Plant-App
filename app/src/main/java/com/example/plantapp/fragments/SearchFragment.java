@@ -1,78 +1,43 @@
 package com.example.plantapp.fragments;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Toast;
 
 import com.example.plantapp.DataBaseHelper;
 import com.example.plantapp.R;
-import com.example.plantapp.activities.MainActivity;
 import com.example.plantapp.activities.PlantWizard;
 import com.example.plantapp.objects.Plant;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SearchFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+// the SearchFragment is accessible from the bottom navigation bar
+// Contains a search bar, a list of plants filtered based on the search, and a button
+// that takes the user to the plant wizard
+
 public class SearchFragment extends Fragment {
-    private RecyclerView mRecyclerView;
-    private PlantAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView rvSearch;
+    private SearchAdapter adSearch;
+    private RecyclerView.LayoutManager lmSearch;
     private List<Plant> plantList;
-    private FloatingActionButton plantWizardOpener;
+    private FloatingActionButton fabPlantWizardOpener;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public SearchFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -80,13 +45,9 @@ public class SearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        DataBaseHelper dpHelper = new DataBaseHelper(getActivity());
-        dpHelper.initializeDataBase();
-        plantList = dpHelper.getPlants();
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        DataBaseHelper dbHelper = new DataBaseHelper(getActivity());
+        dbHelper.initializeDataBase();
+        plantList = dbHelper.getPlants();
     }
 
     @Override
@@ -96,34 +57,34 @@ public class SearchFragment extends Fragment {
 
         getActivity().setTitle("Search");
 
-        plantWizardOpener = view.findViewById(R.id.plantWizardButton);
+        fabPlantWizardOpener = view.findViewById(R.id.btnPlantWizard);
 
-        mRecyclerView = view.findViewById(R.id.searchRecyclerView);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(view.getContext());
-        mAdapter = new PlantAdapter(plantList);
+        rvSearch = view.findViewById(R.id.rvSearch);
+        rvSearch.setHasFixedSize(true);
+        lmSearch = new LinearLayoutManager(view.getContext());
+        adSearch = new SearchAdapter(plantList);
 
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+        rvSearch.setLayoutManager(lmSearch);
+        rvSearch.setAdapter(adSearch);
 
-        mAdapter.setOnItemClickListener(new PlantAdapter.OnItemClickListener() {
+        adSearch.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(int position) {
                 Plant plant = plantList.get(position);
 
-                PlantFragment plantFragment = new PlantFragment();
+                SearchFragment2 searchFragment2 = new SearchFragment2();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("Selected", plant);
-                plantFragment.setArguments(bundle);
+                searchFragment2.setArguments(bundle);
 
                 getActivity().getSupportFragmentManager().beginTransaction().
                         setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out_for_sliding_right, R.anim.fade_in, R.anim.slide_out).
-                        replace(R.id.flContainer, plantFragment)
+                        replace(R.id.fl_fragment_container, searchFragment2)
                         .addToBackStack("fragment_plant").commit();
             }
         });
 
-        plantWizardOpener.setOnClickListener(new View.OnClickListener() {
+        fabPlantWizardOpener.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openPlantWizardActivity();
@@ -148,7 +109,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                mAdapter.getFilter().filter(newText);
+                adSearch.getFilter().filter(newText);
                 return false;
             }
         });

@@ -17,6 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+// WishlistAdapter converts a plant into a list row item to be inserted into the RecyclerView
+// contained in the WishlistFragment class.
+
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.WishlistViewHolder> {
 
     private Context context;
@@ -32,16 +35,16 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     }
 
     class WishlistViewHolder extends RecyclerView.ViewHolder {
-        private ImageView ivPlantW;
-        private TextView tvNameW;
-        private TextView tvSNameW;
+        private ImageView ivPlant;
+        private TextView tvName;
+        private TextView tvScientifcName;
 
         public WishlistViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
 
-            ivPlantW= itemView.findViewById(R.id.ivPlantW);
-            tvNameW = itemView.findViewById(R.id.tvNameW);
-            tvSNameW = itemView.findViewById(R.id.tvSNameW);
+            ivPlant= itemView.findViewById(R.id.iv_plant_image);
+            tvName = itemView.findViewById(R.id.tv_plant_name);
+            tvScientifcName = itemView.findViewById(R.id.tv_plant_scientific_name);
 
             itemView.setOnClickListener(new View.OnClickListener () {
                 @Override
@@ -60,7 +63,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     public WishlistAdapter(Context context, List<Plant> plants) {
         this.context = context;
         this.plants = plants;
-        //android.util.Log.d("INT", String.format("size = %d", plants.size()));
         for (int i = 0 ; i < plants.size() ; i++)
             Log.d("item" , plants.get(i).getName());
     }
@@ -68,7 +70,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     @NonNull
     @Override
     public WishlistViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.wishlist_plant_row, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.row_plant_wishlist_adapter, parent, false);
         return new WishlistViewHolder(view, mListener);
     }
 
@@ -76,8 +78,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     public void onBindViewHolder(@NonNull WishlistViewHolder holder, int position) {
         Plant currentPlant = plants.get(position);
 
-        holder.tvNameW.setText(currentPlant.getName());
-        holder.tvSNameW.setText(currentPlant.getScientific_Name());
+        holder.tvName.setText(currentPlant.getName());
+        holder.tvScientifcName.setText(currentPlant.getScientific_Name());
     }
 
     @Override
@@ -90,8 +92,5 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         plants.clear();
         notifyDataSetChanged();
     }
-
-
-
 
 }

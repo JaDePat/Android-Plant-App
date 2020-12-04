@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/shelfWelcomePart3"
+            android:id="@+id/tv_shelf_welcome_part3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -22,10 +22,10 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/shelfWelcomePart2" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_shelf_welcome_part2" />
 
         <TextView
-            android:id="@+id/shelfWelcomePart2"
+            android:id="@+id/tv_shelf_welcome_part2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -36,10 +36,10 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/shelfWelcome" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_shelf_welcome" />
 
         <TextView
-            android:id="@+id/shelfWelcome"
+            android:id="@+id/tv_shelf_welcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"

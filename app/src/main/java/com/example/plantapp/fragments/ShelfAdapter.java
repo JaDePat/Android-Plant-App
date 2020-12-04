@@ -8,15 +8,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
+
+// ShelfAdapter2  converts a plant object into a list row item to be inserted into the RecyclerView
+// contained in the ShelfFragment class.
 
 public class ShelfAdapter extends RecyclerView.Adapter<ShelfAdapter.ShelfViewHolder> {
 
@@ -40,9 +41,9 @@ public class ShelfAdapter extends RecyclerView.Adapter<ShelfAdapter.ShelfViewHol
         public ShelfViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
 
-            ivPlantImage = itemView.findViewById(R.id.ivPlantImage);
-            tvPlantName = itemView.findViewById(R.id.tvPlantName);
-            tvScientificName = itemView.findViewById(R.id.tvScientificName);
+            ivPlantImage = itemView.findViewById(R.id.iv_plant_image);
+            tvPlantName = itemView.findViewById(R.id.tv_plant_name);
+            tvScientificName = itemView.findViewById(R.id.tv_plant_scientific_name);
 
             itemView.setOnClickListener(new View.OnClickListener () {
                 @Override
@@ -61,7 +62,6 @@ public class ShelfAdapter extends RecyclerView.Adapter<ShelfAdapter.ShelfViewHol
     public ShelfAdapter(Context context, List<Plant> plants) {
         this.context = context;
         this.plants = plants;
-        //android.util.Log.d("INT", String.format("size = %d", plants.size()));
         for (int i = 0 ; i < plants.size() ; i++)
             Log.d("item" , plants.get(i).getName());
     }
@@ -69,7 +69,7 @@ public class ShelfAdapter extends RecyclerView.Adapter<ShelfAdapter.ShelfViewHol
     @NonNull
     @Override
     public ShelfViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.plant_row, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.row_plant_shelf_adapter, parent, false);
         return new ShelfViewHolder(view, mListener);
     }
 

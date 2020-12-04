@@ -7,7 +7,7 @@
     tools:context=".fragments.ShelfFragment2">
 
     <ImageView
-        android:id="@+id/ivPlantW"
+        android:id="@+id/iv_plant_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
@@ -16,34 +16,34 @@
         android:src="@drawable/ic_sample_plant" />
 
     <TextView
-        android:id="@+id/tvNameW"
+        android:id="@+id/tv_plant_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ivPlantW"
+        android:layout_below="@+id/iv_plant_image"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         tools:text="Plant Name" />
 
     <TextView
-        android:id="@+id/tvSNameW"
+        android:id="@+id/tv_plant_scientific_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvNameW"
+        android:layout_below="@+id/tv_plant_name"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         tools:text="Scientific Name" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvShelf2"
+        android:id="@+id/rv_shelf2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/btRemovePlant"
-        android:layout_below="@+id/personalPlantCareNotes"
+        android:layout_above="@id/bt_remove_plant"
+        android:layout_below="@+id/tv_personal_plant_care_notes"
         android:layout_marginTop="0dp" />
 
     <Button
-        android:id="@+id/btRemovePlant"
+        android:id="@+id/bt_remove_plant"
         android:layout_width="137dp"
         android:layout_height="80dp"
         android:layout_alignParentStart="true"
@@ -54,39 +54,39 @@
         android:text="Remove from shelf" />
 
     <Button
-        android:id="@+id/btShelf"
+        android:id="@+id/bt_shelf"
         android:layout_width="137dp"
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="34dp"
         android:layout_marginBottom="12dp"
-        android:layout_toEndOf="@+id/btRemovePlant"
+        android:layout_toEndOf="@+id/bt_remove_plant"
         android:drawableLeft="@drawable/ic_medical_services"
         android:text="Plant Doctor" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/personalPlantCareNotes"
+        android:id="@+id/tv_personal_plant_care_notes"
         android:layout_width="173dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvSNameW"
+        android:layout_below="@+id/tv_plant_scientific_name"
         android:layout_alignParentStart="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="0dp"
-        android:layout_toStartOf="@+id/savePlantCareNotes">
+        android:layout_toStartOf="@+id/bt_save_plant_care_notes">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/personalPlantCare"
+            android:id="@+id/et_personal_plant_care"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/PersonalPlantCareNotes" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/savePlantCareNotes"
+        android:id="@+id/bt_save_plant_care_notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/rvShelf2"
+        android:layout_above="@+id/rv_shelf2"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="0dp"

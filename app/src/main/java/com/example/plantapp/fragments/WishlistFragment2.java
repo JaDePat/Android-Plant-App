@@ -27,8 +27,8 @@ public class WishlistFragment2 extends Fragment {
     private RecyclerView rvWishlist2;
     private WishlistAdapter2 adWishlist2;
     private RecyclerView.LayoutManager lmWishlist2;
-    DataBaseHelper dpHelper;
-    private Button removeFromWishlist;
+    DataBaseHelper dbHelper;
+    private Button btRemoveFromWishlist;
 
     public WishlistFragment2() {
 
@@ -37,17 +37,17 @@ public class WishlistFragment2 extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dpHelper = new DataBaseHelper(getActivity());
-        dpHelper.initializeDataBase();
+        dbHelper = new DataBaseHelper(getActivity());
+        dbHelper.initializeDataBase();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_wishlist2, container, false);
-        ImageView ivPlant= v.findViewById(R.id.ivPlantW);
-        TextView tvName = v.findViewById(R.id.tvNameW);
-        TextView tvSName = v.findViewById(R.id.tvSNameW);
+        ImageView ivPlant= v.findViewById(R.id.iv_plant_image);
+        TextView tvName = v.findViewById(R.id.tv_plant_name);
+        TextView tvSName = v.findViewById(R.id.tv_plant_scientific_name);
 
         Bundle bundle = getArguments();
         plant = bundle.getParcelable("Selected");
@@ -55,7 +55,7 @@ public class WishlistFragment2 extends Fragment {
         tvName.setText(plant.getName());
         tvSName.setText(plant.getScientific_Name());
 
-        rvWishlist2 = v.findViewById(R.id.rvWishlist2);
+        rvWishlist2 = v.findViewById(R.id.rv_wishlist2);
         rvWishlist2.setHasFixedSize(true);
         lmWishlist2 = new LinearLayoutManager(v.getContext());
         adWishlist2 = new WishlistAdapter2(getContext(), plant);
@@ -63,17 +63,17 @@ public class WishlistFragment2 extends Fragment {
         rvWishlist2.setLayoutManager(lmWishlist2);
         rvWishlist2.setAdapter(adWishlist2);
 
-        removeFromWishlist = v.findViewById(R.id.removeFromWishlist);
-        removeFromWishlist.setOnClickListener(new View.OnClickListener() {
+        btRemoveFromWishlist = v.findViewById(R.id.bt_remove_from_wishlist);
+        btRemoveFromWishlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 WishlistFragment wishlistFragment = new WishlistFragment();
-                dpHelper.deleteFromWishlist(String.valueOf(plant.getID()));
+                dbHelper.deleteFromWishlist(String.valueOf(plant.getID()));
                 Toast.makeText(getContext(), "Removed from wishlist!", Toast.LENGTH_SHORT).show();
                 getActivity().getSupportFragmentManager().popBackStack();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.fade_in, R.anim.slide_out)
-                        .replace(R.id.flContainer, wishlistFragment)
+                        .replace(R.id.fl_fragment_container, wishlistFragment)
                         .commit();
             }
         });

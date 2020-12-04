@@ -22,24 +22,27 @@ import com.example.plantapp.objects.Plant;
 
 import java.util.ArrayList;
 import java.util.List;
-// Displays a list of the plants that the user owns
+
+// ShelfFragment  uses the ShelfAdapter class to bind the adapter to the data and populate the
+// RecyclerView with plants from the PLANTS_OWNED_TABLE in the database.
+
 public class ShelfFragment extends Fragment {
     private RecyclerView rvShelf;
     private ShelfAdapter adShelf;
     private RecyclerView.LayoutManager lmShelf;
     private List<Plant> plants;
-    private TextView welcomeMessage, welcomeMessagePartTwo, welcomeMessagePartThree;
+    private TextView tvWelcomeMessage, tvWelcomeMessagePartTwo, tvWelcomeMessagePartThree;
 
     public ShelfFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       DataBaseHelper dpHelper = new DataBaseHelper(getActivity());
-       dpHelper.initializeDataBase();
-       plants = dpHelper.getOwnedPlants();
+       DataBaseHelper dbHelper = new DataBaseHelper(getActivity());
+       dbHelper.initializeDataBase();
+       plants = dbHelper.getOwnedPlants();
 
     }
 
@@ -48,9 +51,9 @@ public class ShelfFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shelf, container, false);
         getActivity().setTitle("Shelf");
-        welcomeMessage = view.findViewById(R.id.shelfWelcome);
-        welcomeMessagePartTwo = view.findViewById(R.id.shelfWelcomePart2);
-        welcomeMessagePartThree = view.findViewById(R.id.shelfWelcomePart3);
+        tvWelcomeMessage = view.findViewById(R.id.tv_shelf_welcome);
+        tvWelcomeMessagePartTwo = view.findViewById(R.id.tv_shelf_welcome_part2);
+        tvWelcomeMessagePartThree = view.findViewById(R.id.tv_shelf_welcome_part3);
 
         rvShelf = view.findViewById(R.id.rvShelf);
         rvShelf.setHasFixedSize(true);
@@ -59,10 +62,10 @@ public class ShelfFragment extends Fragment {
 
         if(!plants.isEmpty()) {
 
-            if(welcomeMessage.getVisibility() != View.GONE) {
-                welcomeMessage.setVisibility(View.GONE);
-                welcomeMessagePartTwo.setVisibility(View.GONE);
-                welcomeMessagePartThree.setVisibility(View.GONE);
+            if(tvWelcomeMessage.getVisibility() != View.GONE) {
+                tvWelcomeMessage.setVisibility(View.GONE);
+                tvWelcomeMessagePartTwo.setVisibility(View.GONE);
+                tvWelcomeMessagePartThree.setVisibility(View.GONE);
             }
 
             adShelf = new ShelfAdapter(getContext(), plants);
@@ -80,7 +83,7 @@ public class ShelfFragment extends Fragment {
 
                     getActivity().getSupportFragmentManager().beginTransaction().
                             setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out_for_sliding_right, R.anim.fade_in, R.anim.slide_out).
-                            replace(R.id.flContainer, shelfFragment2)
+                            replace(R.id.fl_fragment_container, shelfFragment2)
                             .addToBackStack(null).commit();
                 }
             });
@@ -88,9 +91,9 @@ public class ShelfFragment extends Fragment {
         else {
             adShelf = new ShelfAdapter(getContext(), new ArrayList<Plant>());
             rvShelf.setAdapter(adShelf);
-            welcomeMessage.setVisibility(View.VISIBLE);
-            welcomeMessagePartTwo.setVisibility(View.VISIBLE);
-            welcomeMessagePartThree.setVisibility(View.VISIBLE);
+            tvWelcomeMessage.setVisibility(View.VISIBLE);
+            tvWelcomeMessagePartTwo.setVisibility(View.VISIBLE);
+            tvWelcomeMessagePartThree.setVisibility(View.VISIBLE);
         }
 
         return view;

@@ -17,11 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+// ShelfAdapter2 converts a plant characteristic (eg. Light) into a list row item to be inserted
+// into the RecyclerView contained in the ShelfFragment2 class.
+
 public class ShelfAdapter2 extends RecyclerView.Adapter<ShelfAdapter2.ShelfViewHolder2> {
 
     private Context context;
     private Plant plant;
-    private List<String> plant_attributes = new ArrayList<>();
+    private List<String> plantAttributes = new ArrayList<>();
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
@@ -34,13 +37,13 @@ public class ShelfAdapter2 extends RecyclerView.Adapter<ShelfAdapter2.ShelfViewH
 
     class ShelfViewHolder2 extends RecyclerView.ViewHolder {
         private ExpandableCardView card;
-        private TextView expanded_card;
+        private TextView expandedCard;
 
         public ShelfViewHolder2(@NonNull View itemView, @NonNull View itemView2, final OnItemClickListener listener) {
             super(itemView);
 
-            card = itemView.findViewById(R.id.cvAttribute);
-            expanded_card = itemView.findViewById(R.id.tvExpanded);
+            card = itemView.findViewById(R.id.cv_attribute);
+            expandedCard = itemView.findViewById(R.id.tv_expanded_cardview);
 
             itemView.setOnClickListener(new View.OnClickListener () {
                 @Override
@@ -59,19 +62,19 @@ public class ShelfAdapter2 extends RecyclerView.Adapter<ShelfAdapter2.ShelfViewH
     public ShelfAdapter2(Context context, Plant plant) {
         this.context = context;
         this.plant = plant;
-        this.plant_attributes.add(0,plant.getLight());
-        this.plant_attributes.add(1,plant.getWater());
-        this.plant_attributes.add(2,plant.getFertilizer());
-        this.plant_attributes.add(3,plant.getTemperature());
-        this.plant_attributes.add(4,plant.getHumidity());
-        this.plant_attributes.add(5,plant.getFlowering());
-        this.plant_attributes.add(6,plant.getPests());
-        this.plant_attributes.add(7,plant.getDiseases());
-        this.plant_attributes.add(8,plant.getSoil());
-        this.plant_attributes.add(9,plant.getPot_size());
-        this.plant_attributes.add(10,plant.getPruning());
-        this.plant_attributes.add(11,plant.getPropagation());
-        this.plant_attributes.add(12,plant.getPoisonous_plant_info());
+        this.plantAttributes.add(0,plant.getLight());
+        this.plantAttributes.add(1,plant.getWater());
+        this.plantAttributes.add(2,plant.getFertilizer());
+        this.plantAttributes.add(3,plant.getTemperature());
+        this.plantAttributes.add(4,plant.getHumidity());
+        this.plantAttributes.add(5,plant.getFlowering());
+        this.plantAttributes.add(6,plant.getPests());
+        this.plantAttributes.add(7,plant.getDiseases());
+        this.plantAttributes.add(8,plant.getSoil());
+        this.plantAttributes.add(9,plant.getPot_size());
+        this.plantAttributes.add(10,plant.getPruning());
+        this.plantAttributes.add(11,plant.getPropagation());
+        this.plantAttributes.add(12,plant.getPoisonous_plant_info());
     }
 
     @NonNull
@@ -84,7 +87,7 @@ public class ShelfAdapter2 extends RecyclerView.Adapter<ShelfAdapter2.ShelfViewH
 
     @Override
     public void onBindViewHolder(@NonNull ShelfViewHolder2 holder, int position) {
-        String currentAttribute = plant_attributes.get(position);
+        String currentAttribute = plantAttributes.get(position);
         switch(position) {
             case 0:
                 holder.card.setIcon(R.drawable.ic_light);
@@ -139,16 +142,16 @@ public class ShelfAdapter2 extends RecyclerView.Adapter<ShelfAdapter2.ShelfViewH
                 holder.card.setTitle("Poisonous");
                 break;
         }
-        holder.expanded_card.setText(currentAttribute);
+        holder.expandedCard.setText(currentAttribute);
     }
 
     @Override
     public int getItemCount() {
-        return plant_attributes.size();
+        return plantAttributes.size();
     }
 
     public void clear() {
-        plant_attributes.clear();
+        plantAttributes.clear();
         notifyDataSetChanged();
     }
 }
